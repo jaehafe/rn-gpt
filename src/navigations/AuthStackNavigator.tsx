@@ -1,20 +1,29 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import AnimatedIntro from '@/components/AnimatedIntro';
 import {authNavigation} from '@/constants/navigations';
 import Login from '@/components/Login';
-import BottomLoginSheet from '@/components/BottomLoginSheet';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 export type AuthStackParamList = {
   [authNavigation.AUTH_HOME]: undefined;
-  [authNavigation.LOGIN]: undefined;
-  [authNavigation.REGISTER]: undefined;
+  [authNavigation.LOGIN]: {
+    type: 'login' | 'register';
+  };
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function AuthStackNavigator() {
+  const {navigate} =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -30,7 +39,12 @@ export default function AuthStackNavigator() {
         component={Login}
         options={{
           headerTitle: '',
-          headerShown: false,
+          presentation: 'modal',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigate('AuthHome')}>
+              <Ionicons name="close-outline" size={28} />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>

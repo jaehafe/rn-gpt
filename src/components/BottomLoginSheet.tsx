@@ -14,6 +14,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Link, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '@/navigations/AuthStackNavigator';
+import {authNavigation} from '@/constants/navigations';
 
 const BottomLoginSheet = () => {
   const {bottom} = useSafeAreaInsets();
@@ -37,7 +38,7 @@ const BottomLoginSheet = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigate('Login')}
+        onPress={() => navigate(authNavigation.LOGIN, {type: 'register'})}
         style={[defaultStyles.btn, styles.btnDark]}
       >
         <Ionicons name="mail" size={20} style={styles.btnIcon} color={'#fff'} />
@@ -45,7 +46,7 @@ const BottomLoginSheet = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigate('Login')}
+        onPress={() => navigate(authNavigation.LOGIN, {type: 'login'})}
         style={[defaultStyles.btn, styles.btnOutline]}
       >
         <Text style={styles.btnDarkText}>Log in</Text>
