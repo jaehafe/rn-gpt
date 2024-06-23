@@ -13,7 +13,7 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Link, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AuthStackParamList} from '@/navigations/AuthStackNavigator';
+import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import {authNavigation} from '@/constants/navigations';
 
 const BottomLoginSheet = () => {

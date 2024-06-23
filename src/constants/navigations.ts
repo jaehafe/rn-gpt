@@ -3,4 +3,8 @@ const authNavigation = {
   LOGIN: 'Login',
 } as const;
 
-export {authNavigation};
+const chatNavigation = {
+  NEW: 'New',
+} as const;
+
+export {authNavigation, chatNavigation};

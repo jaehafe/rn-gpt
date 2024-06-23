@@ -13,17 +13,28 @@ import {
 import React, {useState} from 'react';
 import Colors from '@/constants/Colors';
 import {defaultStyles} from '@/constants/Styles';
-import {AuthStackParamList} from '@/navigations/AuthStackNavigator';
-import {StackScreenProps} from '@react-navigation/stack';
+import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
+import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {MainDrawerParamList} from '@/navigations/drawer/ChatDrawerNavigator';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
 
 type LoginScreenProps = StackScreenProps<AuthStackParamList>;
 
-export default function Login({route, navigation}: LoginScreenProps) {
+type Navigation = CompositeNavigationProp<
+  StackNavigationProp<AuthStackParamList>,
+  DrawerNavigationProp<MainDrawerParamList>
+>;
+
+export default function Login({route}: LoginScreenProps) {
+  const navigation = useNavigation<Navigation>();
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const onSignInPress = async () => {};
+  const onSignInPress = async () => {
+    navigation.goBack();
+  };
 
   const onSignUpPress = async () => {};
 
