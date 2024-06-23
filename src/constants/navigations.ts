@@ -5,6 +5,8 @@ const authNavigation = {
 
 const chatNavigation = {
   NEW: 'New',
+  DALLE: 'Dalle',
+  EXPLORE: 'Explore',
 } as const;
 
 export {authNavigation, chatNavigation};

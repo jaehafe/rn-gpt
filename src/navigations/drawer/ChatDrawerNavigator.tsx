@@ -21,13 +21,19 @@ import New from '@/components/chat/New';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Dalle from '@/components/chat/Dalle';
+import Explore from '@/components/chat/Explore';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
+  [chatNavigation.DALLE]: undefined;
+  [chatNavigation.EXPLORE]: undefined;
 };
 
 export type MainDrawerParamList = {
   [chatNavigation.NEW]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.DALLE]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.EXPLORE]: NavigatorScreenParams<MainStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -87,6 +93,55 @@ export default function ChatDrawerNavigator() {
                 style={{marginRight: 16}}
               />
             </TouchableOpacity>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={chatNavigation.DALLE}
+        component={Dalle}
+        options={({navigation}) => ({
+          title: 'Dall·E',
+          drawerIcon: () => (
+            <View style={[styles.item, {backgroundColor: '#000'}]}>
+              <Image
+                source={require('@/assets/images/dalle.png')}
+                style={styles.dallEImage}
+              />
+            </View>
+          ),
+        })}
+        listeners={{
+          drawerItemPress: e => {
+            e.preventDefault();
+            navigation.navigate(chatNavigation.DALLE);
+            // if (!user.dalle) {
+            //   router.navigate('/(auth)/(modal)/purchase');
+            // } else {
+            //   router.navigate('/(auth)/dalle');
+            // }
+          },
+        }}
+      />
+      <Drawer.Screen
+        name={chatNavigation.EXPLORE}
+        component={Explore}
+        options={{
+          title: 'Explore GPTs',
+          drawerIcon: () => (
+            <View
+              style={[
+                styles.item,
+                {
+                  backgroundColor: '#fff',
+                  width: 28,
+                  height: 28,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <Ionicons name="apps-outline" size={18} color="#000" />
+            </View>
           ),
         }}
       />
