@@ -12,6 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {ReText} from 'react-native-redash';
+import BottomLoginSheet from './BottomLoginSheet';
 
 const content = [
   {
@@ -199,6 +200,8 @@ const AnimatedIntro = () => {
           text={text}
         />
       </Animated.View>
+
+      <BottomLoginSheet />
     </Animated.View>
   );
 };
