@@ -23,7 +23,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Dalle from '@/components/chat/Dalle';
 import Explore from '@/components/chat/Explore';
-import MainStackNavigator from '../stack/MainStackNavigator';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;

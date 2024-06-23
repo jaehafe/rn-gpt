@@ -34,6 +34,9 @@ export default function MainStackNavigator() {
           presentation: 'modal',
           headerShadowVisible: false,
           headerStyle: {backgroundColor: Colors.selected},
+          headerLeft: () => {
+            return '';
+          },
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
