@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AuthStackNavigator from '@/navigations/stack/AuthStackNavigator';
 import ChatDrawerNavigator from '../drawer/ChatDrawerNavigator';
+import MainStackNavigator from '../stack/MainStackNavigator';
 
 export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,7 +11,7 @@ export default function RootNavigator() {
     setIsLoggedIn(true);
   }, [isLoggedIn]);
 
-  return <>{isLoggedIn ? <ChatDrawerNavigator /> : <AuthStackNavigator />}</>;
+  return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
 }
 
 const styles = StyleSheet.create({});

@@ -1,11 +1,14 @@
 import Colors from '@/constants/Colors';
+import {MainStackParamList} from '@/navigations/stack/MainStackNavigator';
+
 import {Chat} from '@/utils/interface';
 import {
   DrawerContentScrollView,
-  DrawerItem,
   DrawerItemList,
   useDrawerStatus,
 } from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {useEffect, useState} from 'react';
 import {
   Alert,
@@ -22,7 +25,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // import * as ContextMenu from 'zeego/context-menu';
 
+interface CustomDrawerContentProps {}
+
+type Navigation = StackNavigationProp<MainStackParamList>;
+
 export const CustomDrawerContent = (props: any) => {
+  const navigation = useNavigation<Navigation>();
   const {bottom, top} = useSafeAreaInsets();
   // const db = useSQLiteContext();
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -161,7 +169,10 @@ export const CustomDrawerContent = (props: any) => {
         }}
       >
         {/* <Link href="/(auth)/(modal)/settings" asChild> */}
-        <TouchableOpacity onPress={() => {}} style={styles.footer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          style={styles.footer}
+        >
           <Image
             source={{uri: 'https://galaxies.dev/img/meerkat_2.jpg'}}
             style={styles.avatar}

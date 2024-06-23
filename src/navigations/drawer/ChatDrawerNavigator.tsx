@@ -23,17 +23,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Dalle from '@/components/chat/Dalle';
 import Explore from '@/components/chat/Explore';
+import MainStackNavigator from '../stack/MainStackNavigator';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
   [chatNavigation.DALLE]: undefined;
   [chatNavigation.EXPLORE]: undefined;
+  [chatNavigation.MAIN_HOME]: undefined;
 };
 
 export type MainDrawerParamList = {
   [chatNavigation.NEW]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.DALLE]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.EXPLORE]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.MAIN_HOME]: NavigatorScreenParams<MainStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();

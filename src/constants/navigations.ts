@@ -7,6 +7,12 @@ const chatNavigation = {
   NEW: 'New',
   DALLE: 'Dalle',
   EXPLORE: 'Explore',
+  MAIN_HOME: 'MainHome',
 } as const;
 
-export {authNavigation, chatNavigation};
+const mainNavigation = {
+  DRAWER: 'Drawer',
+  SETTINGS: 'Settings',
+} as const;
+
+export {authNavigation, chatNavigation, mainNavigation};
