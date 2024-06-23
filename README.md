@@ -4,4 +4,8 @@ feature
 
 - react-native-redash
 
-![GPT demo](./src/screenshot/gpt.mp4)
+
+
+https://github.com/jaehafe/rn-gpt/assets/108874515/6726bb45-2d6c-4d18-80cd-e60c4d67f11f
+
+
