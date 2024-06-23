@@ -44,18 +44,12 @@ const BottomLoginSheet = () => {
         <Text style={styles.btnDarkText}>Sign up with email</Text>
       </TouchableOpacity>
 
-      <Link
-        to={{
-          screen: 'Login',
-          // pathname: '/login',
-          // params: {type: 'login'},
-        }}
+      <TouchableOpacity
+        onPress={() => navigate('Login')}
         style={[defaultStyles.btn, styles.btnOutline]}
       >
-        <TouchableOpacity>
-          <Text style={styles.btnDarkText}>Log in</Text>
-        </TouchableOpacity>
-      </Link>
+        <Text style={styles.btnDarkText}>Log in</Text>
+      </TouchableOpacity>
     </View>
   );
 };
