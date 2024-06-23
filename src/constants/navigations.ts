@@ -8,6 +8,7 @@ const chatNavigation = {
   DALLE: 'Dalle',
   EXPLORE: 'Explore',
   MAIN_HOME: 'MainHome',
+  DETAIL: 'Detail',
 } as const;
 
 const mainNavigation = {

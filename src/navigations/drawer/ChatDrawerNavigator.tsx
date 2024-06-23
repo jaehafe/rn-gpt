@@ -23,12 +23,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Dalle from '@/components/chat/Dalle';
 import Explore from '@/components/chat/Explore';
+import ChatDetail from '@/components/chat/ChatDetail';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
   [chatNavigation.DALLE]: undefined;
   [chatNavigation.EXPLORE]: undefined;
   [chatNavigation.MAIN_HOME]: undefined;
+  [chatNavigation.DETAIL]: {id: string; title: string};
 };
 
 export type MainDrawerParamList = {
@@ -36,6 +38,7 @@ export type MainDrawerParamList = {
   [chatNavigation.DALLE]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.EXPLORE]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.MAIN_HOME]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.DETAIL]: NavigatorScreenParams<MainStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -129,6 +132,29 @@ export default function ChatDrawerNavigator() {
         component={Explore}
         options={{
           title: 'Explore GPTs',
+          drawerIcon: () => (
+            <View
+              style={[
+                styles.item,
+                {
+                  backgroundColor: '#fff',
+                  width: 28,
+                  height: 28,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <Ionicons name="apps-outline" size={18} color="#000" />
+            </View>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={chatNavigation.DETAIL}
+        component={ChatDetail}
+        options={{
+          title: '',
           drawerIcon: () => (
             <View
               style={[

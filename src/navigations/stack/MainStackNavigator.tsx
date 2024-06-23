@@ -8,6 +8,7 @@ import Colors from '@/constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ChatDetail from '@/components/chat/ChatDetail';
 
 export type MainStackParamList = {
   [mainNavigation.DRAWER]: undefined;

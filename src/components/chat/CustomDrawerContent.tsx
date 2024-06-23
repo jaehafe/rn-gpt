@@ -1,4 +1,6 @@
 import Colors from '@/constants/Colors';
+import {chatNavigation} from '@/constants/navigations';
+import {MainStackParamList as MainStackParamList2} from '@/navigations/drawer/ChatDrawerNavigator';
 import {MainStackParamList} from '@/navigations/stack/MainStackNavigator';
 
 import {Chat} from '@/utils/interface';
@@ -14,6 +16,7 @@ import {
   Alert,
   Image,
   Keyboard,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -28,9 +31,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 interface CustomDrawerContentProps {}
 
 type Navigation = StackNavigationProp<MainStackParamList>;
+type Navigation2 = StackNavigationProp<MainStackParamList2>;
 
 export const CustomDrawerContent = (props: any) => {
   const navigation = useNavigation<Navigation>();
+  const navigation2 = useNavigation<Navigation2>();
   const {bottom, top} = useSafeAreaInsets();
   // const db = useSQLiteContext();
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -102,7 +107,16 @@ export const CustomDrawerContent = (props: any) => {
       >
         <DrawerItemList {...props} />
         <View>
-          <Text>123</Text>
+          <Pressable
+            onPress={() =>
+              navigation2.navigate(chatNavigation.DETAIL, {
+                id: '123',
+                title: '123',
+              })
+            }
+          >
+            <Text>123</Text>
+          </Pressable>
         </View>
         {/* {history.map(chat => (
           <ContextMenu.Root key={chat.id}>
