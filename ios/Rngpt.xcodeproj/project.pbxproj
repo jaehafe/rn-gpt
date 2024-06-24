@@ -15,6 +15,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8A20B4ED864E725E39AE5E4E /* libPods-Rngpt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D374D8A1275E656005506C5 /* libPods-Rngpt.a */; };
 		AF5D0556BC65DD0FEC3DFAE4 /* libPods-Rngpt-RngptTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 704E24D1053BD1DE42E0B8BB /* libPods-Rngpt-RngptTests.a */; };
+		D6374C0F2C29C5FD000E0FC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6374C0E2C29C5FD000E0FC6 /* GoogleService-Info.plist */; };
 		D6699FD12C280B4E00D20CE3 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FBE2C280B4E00D20CE3 /* Feather.ttf */; };
 		D6699FD22C280B4E00D20CE3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FBF2C280B4E00D20CE3 /* Ionicons.ttf */; };
 		D6699FD32C280B4E00D20CE3 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC02C280B4E00D20CE3 /* Octicons.ttf */; };
@@ -23,7 +24,6 @@
 		D6699FD62C280B4E00D20CE3 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC32C280B4E00D20CE3 /* Fontisto.ttf */; };
 		D6699FD72C280B4E00D20CE3 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC42C280B4E00D20CE3 /* MaterialCommunityIcons.ttf */; };
 		D6699FD82C280B4E00D20CE3 /* FontAwesome6_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC52C280B4E00D20CE3 /* FontAwesome6_Brands.ttf */; };
-		D6699FD92C280B4E00D20CE3 /* FontAwesome6_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC62C280B4E00D20CE3 /* FontAwesome6_Regular.ttf */; };
 		D6699FDA2C280B4E00D20CE3 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC72C280B4E00D20CE3 /* FontAwesome5_Brands.ttf */; };
 		D6699FDB2C280B4E00D20CE3 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC82C280B4E00D20CE3 /* Entypo.ttf */; };
 		D6699FDC2C280B4E00D20CE3 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FC92C280B4E00D20CE3 /* FontAwesome5_Regular.ttf */; };
@@ -65,6 +65,8 @@
 		A301E06D9CC12582B105A16F /* Pods-Rngpt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rngpt.release.xcconfig"; path = "Target Support Files/Pods-Rngpt/Pods-Rngpt.release.xcconfig"; sourceTree = "<group>"; };
 		BF5BE1741E451FCCBF3597C1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Rngpt/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C83E9AF7355CD49BB041F9B2 /* Pods-Rngpt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rngpt.debug.xcconfig"; path = "Target Support Files/Pods-Rngpt/Pods-Rngpt.debug.xcconfig"; sourceTree = "<group>"; };
+		D6374C0E2C29C5FD000E0FC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D6374C112C29CA27000E0FC6 /* Rngpt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Rngpt.entitlements; path = Rngpt/Rngpt.entitlements; sourceTree = "<group>"; };
 		D6699FBE2C280B4E00D20CE3 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		D6699FBF2C280B4E00D20CE3 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		D6699FC02C280B4E00D20CE3 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -127,11 +129,13 @@
 		13B07FAE1A68108700A75B9A /* Rngpt */ = {
 			isa = PBXGroup;
 			children = (
+				D6374C112C29CA27000E0FC6 /* Rngpt.entitlements */,
 				D6699FBD2C280B4200D20CE3 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				D6374C0E2C29C5FD000E0FC6 /* GoogleService-Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
@@ -270,7 +274,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -331,9 +336,9 @@
 				D6699FDD2C280B4E00D20CE3 /* FontAwesome6_Solid.ttf in Resources */,
 				D6699FD52C280B4E00D20CE3 /* AntDesign.ttf in Resources */,
 				D6699FD82C280B4E00D20CE3 /* FontAwesome6_Brands.ttf in Resources */,
+				D6374C0F2C29C5FD000E0FC6 /* GoogleService-Info.plist in Resources */,
 				D6699FDC2C280B4E00D20CE3 /* FontAwesome5_Regular.ttf in Resources */,
 				D6699FD42C280B4E00D20CE3 /* Zocial.ttf in Resources */,
-				D6699FD92C280B4E00D20CE3 /* FontAwesome6_Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +521,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 050CA418972E03CFAE256FD2 /* Pods-Rngpt-RngptTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -543,6 +549,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 139E2A6EA93FB80E41AF7980 /* Pods-Rngpt-RngptTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = RngptTests/Info.plist;
@@ -569,7 +576,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Rngpt/Rngpt.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CWJ4HDM9D3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Rngpt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -583,6 +592,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.Rngpt1;
 				PRODUCT_NAME = Rngpt;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -596,7 +606,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Rngpt/Rngpt.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CWJ4HDM9D3;
 				INFOPLIST_FILE = Rngpt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -609,6 +621,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.Rngpt1;
 				PRODUCT_NAME = Rngpt;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -650,6 +663,7 @@
 				CXX = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -688,10 +702,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -733,6 +744,7 @@
 				CXX = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -763,10 +775,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
