@@ -9,6 +9,7 @@ const chatNavigation = {
   EXPLORE: 'Explore',
   MAIN_HOME: 'MainHome',
   DETAIL: 'Detail',
+  PUSH: 'Push',
 } as const;
 
 const mainNavigation = {

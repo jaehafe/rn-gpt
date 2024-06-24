@@ -24,6 +24,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import Dalle from '@/components/chat/Dalle';
 import Explore from '@/components/chat/Explore';
 import ChatDetail from '@/components/chat/ChatDetail';
+import PushNotification from '@/components/push/PushNotification';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
@@ -31,6 +32,7 @@ export type MainStackParamList = {
   [chatNavigation.EXPLORE]: undefined;
   [chatNavigation.MAIN_HOME]: undefined;
   [chatNavigation.DETAIL]: {id: string; title: string};
+  [chatNavigation.PUSH]: undefined;
 };
 
 export type MainDrawerParamList = {
@@ -39,6 +41,7 @@ export type MainDrawerParamList = {
   [chatNavigation.EXPLORE]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.MAIN_HOME]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.DETAIL]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.PUSH]: NavigatorScreenParams<MainStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -154,7 +157,30 @@ export default function ChatDrawerNavigator() {
         name={chatNavigation.DETAIL}
         component={ChatDetail}
         options={{
-          title: '',
+          title: 'Chat Detail',
+          drawerIcon: () => (
+            <View
+              style={[
+                styles.item,
+                {
+                  backgroundColor: '#fff',
+                  width: 28,
+                  height: 28,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <Ionicons name="apps-outline" size={18} color="#000" />
+            </View>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={chatNavigation.PUSH}
+        component={PushNotification}
+        options={{
+          title: 'Push Notification',
           drawerIcon: () => (
             <View
               style={[
