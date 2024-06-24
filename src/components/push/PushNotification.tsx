@@ -1,8 +1,15 @@
 import {Button, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // import messaging from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
+import {
+  getFcmToken,
+  getFcmTokenFromLocalStorage,
+  localStorage,
+  notificationListener,
+  requestUserPermission,
+} from './notifications';
 // import {AndroidColor} from '@notifee/react-native';
 
 async function onDisplayNotification() {
@@ -72,6 +79,28 @@ export default function PushNotification() {
   //     }
   //   });
   // }, []);
+  const fcmToken = localStorage.getString('fcmtoken');
+  const [generatedToken, setGeneratedToken] = useState<string>('');
+
+  useEffect(() => {
+    console.log('storage', fcmToken, 'newly generated', generatedToken);
+  }, [fcmToken, generatedToken]);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getFcmToken();
+      if (token) {
+        setGeneratedToken(token);
+      }
+    };
+    const fetchTokenByLocal = async () => {
+      await getFcmTokenFromLocalStorage();
+    };
+    void fetchToken();
+    void fetchTokenByLocal();
+    void requestUserPermission();
+    void notificationListener();
+  }, []);
 
   return (
     <View>
