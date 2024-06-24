@@ -1,12 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import AddCalendar from '../calendar/AddCalendar';
 
 export default function New() {
-  return (
-    <View>
-      <Text>New</Text>
-    </View>
-  );
+  return <AddCalendar />;
 }
 
 const styles = StyleSheet.create({});
