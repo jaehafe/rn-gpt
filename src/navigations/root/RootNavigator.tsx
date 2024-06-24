@@ -11,7 +11,8 @@ export default function RootNavigator() {
     setIsLoggedIn(true);
   }, [isLoggedIn]);
 
-  return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
+  // return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
+  return <MainStackNavigator />;
 }
 
 const styles = StyleSheet.create({});

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758989089995",
+    "project_id": "rngpt-e1a44",
+    "storage_bucket": "rngpt-e1a44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758989089995:android:409eabfd441c3a4efd3f4e",
+        "android_client_info": {
+          "package_name": "com.rngpt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6IXCI_MKxtN1M0J7XMEWEttoGcxWDkjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
