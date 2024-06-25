@@ -1,6 +1,9 @@
-import messaging from '@react-native-firebase/messaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 import {MMKV} from 'react-native-mmkv';
 import {Alert, Linking, NativeModules, Platform} from 'react-native';
+import notifee from '@notifee/react-native';
 
 export const localStorage = new MMKV();
 
@@ -63,6 +66,12 @@ const getFcmToken = async () => {
   }
 };
 
+function onMessageReceived(message: FirebaseMessagingTypes.RemoteMessage) {
+  notifee.displayNotification({
+    body: message.notification?.body,
+  });
+}
+
 const notificationListener = () => {
   // background
   messaging().onNotificationOpenedApp(remoteMessage => {
@@ -89,6 +98,8 @@ const notificationListener = () => {
   messaging().onMessage(async remoteMessage => {
     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
   });
+  messaging().onMessage(onMessageReceived);
+  messaging().setBackgroundMessageHandler(onMessageReceived as any);
 };
 
 export {
