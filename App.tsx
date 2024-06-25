@@ -14,6 +14,8 @@ import messaging from '@react-native-firebase/messaging';
 export default function App() {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('remoteMessage>>', remoteMessage);
+
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 

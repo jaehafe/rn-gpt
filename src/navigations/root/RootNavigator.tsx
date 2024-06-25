@@ -8,7 +8,7 @@ export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(true);
+    setIsLoggedIn(false);
   }, [isLoggedIn]);
 
   // return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
