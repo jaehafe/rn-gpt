@@ -15,16 +15,16 @@
 	<key>STORAGE_BUCKET</key>
 	<string>rngpt-e1a44.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:758989089995:ios:6fe85f8f82e59c94fd3f4e</string>
+	<string>1:758989089995:ios:6b09b0c50a47d884fd3f4e</string>
 </dict>
 </plist>

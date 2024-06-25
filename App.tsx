@@ -11,17 +11,31 @@ import RootNavigator from '@/navigations/root/RootNavigator';
 
 import messaging from '@react-native-firebase/messaging';
 import usePushNotification from '@/hooks/usePushNotification';
+import {requestUserPermission} from '@/components/push/notifications';
 
 export default function App() {
   useEffect(() => {
-    const unsubscribe = messaging().setBackgroundMessageHandler(
-      async remoteMessage => {
-        console.log('Message handled in the background!', remoteMessage);
-      },
-    );
+    requestUserPermission();
+  }, []);
+
+  // foreground
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
 
     return unsubscribe;
   }, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = messaging().setBackgroundMessageHandler(
+  //     async remoteMessage => {
+  //       console.log('Message handled in the background!', remoteMessage);
+  //     },
+  //   );
+
+  //   return unsubscribe;
+  // }, []);
 
   usePushNotification();
 
