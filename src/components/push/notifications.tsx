@@ -64,8 +64,7 @@ const getFcmToken = async () => {
 };
 
 const notificationListener = () => {
-  // Assume a message-notification contains a "type" property in the data payload of the screen to open
-
+  // background
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(
       'Notification caused app to open from background state:',
@@ -73,7 +72,7 @@ const notificationListener = () => {
     );
   });
 
-  // Check whether an initial notification is available
+  // quit
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
@@ -86,6 +85,7 @@ const notificationListener = () => {
     })
     .catch(error => console.log('failed', error));
 
+  // foreground
   messaging().onMessage(async remoteMessage => {
     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
   });

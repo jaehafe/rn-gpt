@@ -3,11 +3,9 @@ import {Alert} from 'react-native';
 import {requestNotifications, RESULTS} from 'react-native-permissions';
 import messaging from '@react-native-firebase/messaging';
 import {handleSettings} from '@/components/push/notifications';
-// import AuthContext from '../components/AuthContext';
 
 const usePushNotification = () => {
   const [fcmToken, setFcmToken] = useState<string | null>(null);
-  // const { user, addFcmToken } = useContext(AuthContext);
 
   useEffect(() => {
     messaging()
@@ -25,12 +23,6 @@ const usePushNotification = () => {
       unsubscribe();
     };
   }, []);
-
-  // useEffect(() => {
-  //   if (user != null && fcmToken != null) {
-  //     addFcmToken(fcmToken);
-  //   }
-  // }, [addFcmToken, user, fcmToken]);
 
   const requestPermission = useCallback(async () => {
     const {status} = await requestNotifications([]);

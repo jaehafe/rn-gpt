@@ -14,18 +14,14 @@ import usePushNotification from '@/hooks/usePushNotification';
 
 export default function App() {
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('remoteMessage>>', remoteMessage);
-
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+    const unsubscribe = messaging().setBackgroundMessageHandler(
+      async remoteMessage => {
+        console.log('Message handled in the background!', remoteMessage);
+      },
+    );
 
     return unsubscribe;
   }, []);
-
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
-  });
 
   usePushNotification();
 
