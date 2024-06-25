@@ -10,6 +10,7 @@ import Config from 'react-native-config';
 import RootNavigator from '@/navigations/root/RootNavigator';
 
 import messaging from '@react-native-firebase/messaging';
+import usePushNotification from '@/hooks/usePushNotification';
 
 export default function App() {
   useEffect(() => {
@@ -25,6 +26,8 @@ export default function App() {
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
   });
+
+  usePushNotification();
 
   return (
     <NavigationContainer>
