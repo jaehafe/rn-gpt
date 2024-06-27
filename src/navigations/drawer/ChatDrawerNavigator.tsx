@@ -5,7 +5,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {chatNavigation} from '@/constants/navigations';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
@@ -25,6 +25,8 @@ import Dalle from '@/components/chat/Dalle';
 import Explore from '@/components/chat/Explore';
 import ChatDetail from '@/components/chat/ChatDetail';
 import PushNotification from '@/components/push/PushNotification';
+import HeaderDropdown from '@/components/chat/HeaderDropdown';
+import DalleGPT4 from '@/components/chat/DalleGPT4';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
@@ -46,9 +48,13 @@ export type MainDrawerParamList = {
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
+export type ModelType = '3.5' | '4';
+
 export default function ChatDrawerNavigator() {
   const navigation = useNavigation<StackNavigationProp<MainStackParamList>>();
   const dimensions = useWindowDimensions();
+
+  const [model, setModel] = useState<ModelType>('3.5');
 
   return (
     <Drawer.Navigator
@@ -79,7 +85,6 @@ export default function ChatDrawerNavigator() {
         name={chatNavigation.NEW}
         component={New}
         getId={() => Math.random().toString()}
-        // options={{headerShown: false}}
         options={{
           title: 'ChatGPT',
           drawerIcon: () => (
@@ -106,8 +111,15 @@ export default function ChatDrawerNavigator() {
       />
       <Drawer.Screen
         name={chatNavigation.DALLE}
-        component={Dalle}
+        component={model === '3.5' ? Dalle : DalleGPT4}
         options={({navigation}) => ({
+          headerTitle: () => (
+            <HeaderDropdown
+              title={model}
+              selected={model}
+              onSelect={newModel => setModel(newModel)}
+            />
+          ),
           title: 'Dall·E',
           drawerIcon: () => (
             <View style={[styles.item, {backgroundColor: '#000'}]}>

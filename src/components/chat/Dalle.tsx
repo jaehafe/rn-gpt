@@ -5,6 +5,7 @@ import {MenuView} from '@react-native-menu/menu';
 export default function Dalle() {
   return (
     <View style={styles.container}>
+      <Text>123</Text>
       <MenuView
         title="Menu Title"
         onPressAction={({nativeEvent}) => {

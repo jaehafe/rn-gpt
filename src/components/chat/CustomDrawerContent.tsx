@@ -106,7 +106,8 @@ export const CustomDrawerContent = (props: any) => {
         contentContainerStyle={{backgroundColor: '#fff', paddingTop: 0}}
       >
         <DrawerItemList {...props} />
-        <View>
+
+        <View style={{borderWidth: 1, marginHorizontal: 20}}>
           <Pressable
             onPress={() =>
               navigation2.navigate(chatNavigation.DETAIL, {
@@ -175,6 +176,7 @@ export const CustomDrawerContent = (props: any) => {
         ))} */}
       </DrawerContentScrollView>
 
+      {/* Settings */}
       <View
         style={{
           padding: 16,

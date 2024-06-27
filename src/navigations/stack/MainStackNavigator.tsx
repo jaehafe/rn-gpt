@@ -34,7 +34,9 @@ export default function MainStackNavigator() {
           headerTitle: 'Settings',
           presentation: 'modal',
           headerShadowVisible: false,
-          headerStyle: {backgroundColor: Colors.selected},
+          headerStyle: {
+            backgroundColor: Colors.selected,
+          },
           headerLeft: () => {
             return '';
           },
