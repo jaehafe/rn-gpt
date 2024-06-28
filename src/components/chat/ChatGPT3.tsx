@@ -1,6 +1,5 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {MenuView} from '@react-native-menu/menu';
 import MessageInput from './MessageInput';
 
 export default function ChatGPT3() {

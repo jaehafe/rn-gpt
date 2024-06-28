@@ -1,7 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSharedValue} from 'react-native-reanimated';
 
 export default function MessageInput() {
+  const [message, setMessage] = useState('');
+  const {bottom} = useSafeAreaInsets();
+  const expanded = useSharedValue(0);
+
   return (
     <View>
       <Text>MessageInput</Text>
