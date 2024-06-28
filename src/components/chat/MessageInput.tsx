@@ -101,7 +101,7 @@ export default function MessageInput() {
           <TouchableOpacity
             onPress={() =>
               launchCamera({
-                cameraType: 'front',
+                cameraType: 'back',
                 saveToPhotos: true,
                 mediaType: 'photo',
               })
