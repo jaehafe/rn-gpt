@@ -10,6 +10,7 @@ const chatNavigation = {
   MAIN_HOME: 'MainHome',
   DETAIL: 'Detail',
   PUSH: 'Push',
+  CALENDAR: 'Calendar',
 } as const;
 
 const mainNavigation = {

@@ -1,8 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import AddCalendar from '../calendar/AddCalendar';
+import AddCalendar from '@/components/calendar/AddCalendar';
 
-export default function New() {
+export default function CalendarScreen() {
   return <AddCalendar />;
 }
 
