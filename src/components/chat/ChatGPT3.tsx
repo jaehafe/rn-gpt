@@ -1,6 +1,7 @@
 import {
   Image,
   KeyboardAvoidingView,
+  LayoutChangeEvent,
   Platform,
   StyleSheet,
   Text,
@@ -14,7 +15,7 @@ import {FlashList} from '@shopify/flash-list';
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
 
-  const handleLayout = (event: any) => {
+  const handleLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
     setHeight(height / 2);
   };

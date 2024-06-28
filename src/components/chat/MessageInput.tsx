@@ -42,6 +42,7 @@ export default function MessageInput() {
       [1, 0],
       Extrapolation.CLAMP,
     );
+
     const widthInterpolation = interpolate(
       expanded.value,
       [0, 1],
