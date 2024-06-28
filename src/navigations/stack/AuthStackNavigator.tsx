@@ -1,10 +1,10 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
-import AnimatedIntro from '@/components/AnimatedIntro';
+import AnimatedIntro from '@/components/ui/AnimatedIntro';
 import {authNavigation} from '@/constants/navigations';
 import Login from '@/components/Login';
 

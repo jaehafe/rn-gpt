@@ -15,15 +15,24 @@ import {Link, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import {authNavigation} from '@/constants/navigations';
+import {storage} from '@/navigations/root/RootNavigator';
 
 const BottomLoginSheet = () => {
   const {bottom} = useSafeAreaInsets();
   const {navigate} =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
+  const handleAppleLogin = () => {
+    // 로그인 상태를 true로 설정하고 MMKV에 저장
+    storage.set('isLoggedIn', true);
+  };
+
   return (
     <View style={[styles.container, {paddingBottom: bottom}]}>
-      <TouchableOpacity style={[defaultStyles.btn, styles.btnLight]}>
+      <TouchableOpacity
+        style={[defaultStyles.btn, styles.btnLight]}
+        onPress={handleAppleLogin}
+      >
         <Ionicons name="logo-apple" size={24} style={styles.btnIcon} />
         <Text style={styles.btnLightText}>Continue with Apple</Text>
       </TouchableOpacity>
