@@ -66,9 +66,12 @@ const getFcmToken = async () => {
   }
 };
 
-function onMessageReceived(message: FirebaseMessagingTypes.RemoteMessage) {
-  notifee.displayNotification({
-    body: message.notification?.body,
+async function onMessageReceived(
+  message: FirebaseMessagingTypes.RemoteMessage,
+) {
+  await notifee.displayNotification({
+    title: JSON.parse(JSON.stringify(message.notification?.title)),
+    body: JSON.parse(JSON.stringify(message.notification?.body)),
   });
 }
 
@@ -99,7 +102,7 @@ const notificationListener = () => {
     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
   });
   messaging().onMessage(onMessageReceived);
-  messaging().setBackgroundMessageHandler(onMessageReceived as any);
+  messaging().setBackgroundMessageHandler(onMessageReceived);
 };
 
 export {
