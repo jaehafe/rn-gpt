@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   LayoutChangeEvent,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -12,12 +13,29 @@ import MessageInput from './MessageInput';
 import {defaultStyles} from '@/constants/Styles';
 import {FlashList} from '@shopify/flash-list';
 
+import Haptics from 'react-native-haptic-feedback';
+import {RefreshControl} from 'react-native-gesture-handler';
+
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
     setHeight(height / 2);
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+
+    Haptics.trigger('impactLight', {
+      enableVibrateFallback: true,
+      ignoreAndroidSystemSettings: false,
+    });
+
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
   };
 
   return (
@@ -29,18 +47,44 @@ export default function ChatGPT3() {
           </View>
         )} */}
         <View style={[styles.logoContainer, {marginTop: height / 2 - 100}]}>
-          <Image
-            source={require('@/assets/images/logo-white.png')}
-            style={styles.image}
-          />
+          <Pressable
+            onPress={() =>
+              Haptics.trigger('impactLight', {
+                enableVibrateFallback: true,
+                ignoreAndroidSystemSettings: false,
+              })
+            }
+          >
+            <Image
+              source={require('@/assets/images/logo-white.png')}
+              style={styles.image}
+            />
+          </Pressable>
         </View>
 
         <FlashList
           data={[]}
           renderItem={({item}) => {}}
           estimatedItemSize={400}
-          contentContainerStyle={{paddingTop: 30, paddingBottom: 150}}
+          contentContainerStyle={{
+            paddingTop: 30,
+            paddingBottom: 150,
+          }}
           keyboardDismissMode="on-drag"
+          onEndReachedThreshold={0.8}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              // onRefresh={() => {
+              //   animationRef.current?.play();
+              // }}
+              onRefresh={handleRefresh}
+            />
+          }
+          onRefresh={handleRefresh}
+          refreshing={isRefreshing}
+          scrollIndicatorInsets={{right: 1}}
+          indicatorStyle="black"
         />
       </View>
 
