@@ -19,28 +19,21 @@ import {useQueryTodosAPI} from '@/apis/hooks';
 
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const {data, isPending, isError, refetch} = useQueryTodosAPI();
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
     setHeight(height / 2);
   };
 
-  const handleRefresh = () => {
-    setIsRefreshing(true);
+  const handleRefresh = async () => {
+    await refetch();
 
     Haptics.trigger('impactLight', {
       enableVibrateFallback: true,
       ignoreAndroidSystemSettings: false,
     });
-
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 2000);
   };
-
-  const {data, isPending, isError} = useQueryTodosAPI();
-  console.log('data>>', data);
 
   return (
     <View style={defaultStyles.pageContainer}>
@@ -80,13 +73,10 @@ export default function ChatGPT3() {
           keyboardDismissMode="on-drag"
           onEndReachedThreshold={0.8}
           refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh}
-            />
+            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
           }
           onRefresh={handleRefresh}
-          refreshing={isRefreshing}
+          refreshing={isPending}
           scrollIndicatorInsets={{right: 1}}
           indicatorStyle="black"
         />
