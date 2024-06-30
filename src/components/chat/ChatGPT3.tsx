@@ -15,6 +15,7 @@ import {FlashList} from '@shopify/flash-list';
 
 import Haptics from 'react-native-haptic-feedback';
 import {RefreshControl} from 'react-native-gesture-handler';
+import {useQueryTodosAPI} from '@/apis/hooks';
 
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
@@ -37,6 +38,9 @@ export default function ChatGPT3() {
       setIsRefreshing(false);
     }, 2000);
   };
+
+  const {data, isPending, isError} = useQueryTodosAPI();
+  console.log('data>>', data);
 
   return (
     <View style={defaultStyles.pageContainer}>
@@ -63,8 +67,11 @@ export default function ChatGPT3() {
         </View>
 
         <FlashList
-          data={[]}
-          renderItem={({item}) => {}}
+          data={data}
+          keyExtractor={item => String(item.id)}
+          renderItem={({item}) => (
+            <Text style={{borderWidth: 1}}>{item.title}</Text>
+          )}
           estimatedItemSize={400}
           contentContainerStyle={{
             paddingTop: 30,
@@ -75,9 +82,6 @@ export default function ChatGPT3() {
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
-              // onRefresh={() => {
-              //   animationRef.current?.play();
-              // }}
               onRefresh={handleRefresh}
             />
           }

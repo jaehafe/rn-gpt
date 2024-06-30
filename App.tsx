@@ -15,6 +15,8 @@ import {
   notificationListener,
   requestUserPermission,
 } from '@/components/push/notifications';
+import {QueryClientProvider} from '@tanstack/react-query';
+import queryClient from '@/apis/queryClient';
 
 export default function App() {
   // useEffect(() => {
@@ -36,9 +38,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <GestureHandlerRootView style={{flex: 1}}>
-        <SafeAreaProvider>
-          <RootNavigator />
-        </SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider>
+            <RootNavigator />
+          </SafeAreaProvider>
+        </QueryClientProvider>
       </GestureHandlerRootView>
     </NavigationContainer>
   );
