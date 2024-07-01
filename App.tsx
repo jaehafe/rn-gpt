@@ -17,6 +17,7 @@ import {
 } from '@/components/push/notifications';
 import {QueryClientProvider} from '@tanstack/react-query';
 import queryClient from '@/apis/queryClient';
+import SplashScreen from 'react-native-splash-screen';
 
 export default function App() {
   useEffect(() => {
@@ -30,6 +31,12 @@ export default function App() {
     });
 
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
   }, []);
 
   usePushNotification();
