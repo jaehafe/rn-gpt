@@ -3,28 +3,26 @@ import {defaultStyles} from '@/constants/Styles';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Link, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import {authNavigation} from '@/constants/navigations';
-import {storage} from '@/navigations/root/RootNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BottomLoginSheet = () => {
   const {bottom} = useSafeAreaInsets();
   const {navigate} =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
-  const handleAppleLogin = () => {
-    // 로그인 상태를 true로 설정하고 MMKV에 저장
-    storage.set('isLoggedIn', true);
+  const handleAppleLogin = async () => {
+    // 로그인 상태를 true로 설정하고 AsyncStorage에 저장
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'true');
+    } catch (error) {
+      console.error('Failed to save login state:', error);
+    }
   };
 
   return (

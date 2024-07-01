@@ -1,11 +1,10 @@
 import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
-import {MMKV} from 'react-native-mmkv';
 import {Alert, Linking, NativeModules, Platform} from 'react-native';
-import notifee from '@notifee/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const localStorage = new MMKV();
+import notifee from '@notifee/react-native';
 
 export const handleSettings = () => {
   if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
@@ -43,11 +42,11 @@ const requestUserPermission = async () => {
 };
 
 const getFcmTokenFromLocalStorage = async () => {
-  const fcmtoken = localStorage.getString('fcmtoken');
+  const fcmtoken = await AsyncStorage.getItem('fcmtoken');
   if (!fcmtoken) {
     try {
       const newFcmToken = await messaging().getToken();
-      localStorage.set('fcmtoken', newFcmToken);
+      await AsyncStorage.setItem('fcmtoken', newFcmToken);
     } catch (error) {
       console.error(error);
     }

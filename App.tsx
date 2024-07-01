@@ -1,4 +1,4 @@
-import {Alert, StyleSheet} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -19,18 +19,18 @@ import {QueryClientProvider} from '@tanstack/react-query';
 import queryClient from '@/apis/queryClient';
 
 export default function App() {
-  // useEffect(() => {
-  //   requestUserPermission();
-  // }, []);
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
 
   // foreground
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-  //   });
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
 
-  //   return unsubscribe;
-  // }, []);
+    return unsubscribe;
+  }, []);
 
   usePushNotification();
   notificationListener();
@@ -45,6 +45,9 @@ export default function App() {
         </QueryClientProvider>
       </GestureHandlerRootView>
     </NavigationContainer>
+    // <View>
+    //   <Text>123</Text>
+    // </View>
   );
 }
 

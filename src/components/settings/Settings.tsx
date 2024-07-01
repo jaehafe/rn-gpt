@@ -5,7 +5,7 @@ import {MainStackParamList} from '@/navigations/drawer/ChatDrawerNavigator';
 import {keyStorage} from '@/utils/Storage';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,32 +14,43 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import {useMMKVString} from 'react-native-mmkv';
+// import {useMMKVString} from 'react-native-mmkv';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Navigation = StackNavigationProp<MainStackParamList>;
 
 export default function Settings() {
   const navigation = useNavigation<Navigation>();
-  const [key, setKey] = useMMKVString('apikey', keyStorage);
-  const [organization, setOrganization] = useMMKVString('org', keyStorage);
-
   const [apiKey, setApiKey] = useState('');
   const [org, setOrg] = useState('');
 
+  useEffect(() => {
+    const loadSettings = async () => {
+      const storedApiKey = await AsyncStorage.getItem('apikey');
+      const storedOrg = await AsyncStorage.getItem('org');
+      if (storedApiKey) setApiKey(storedApiKey);
+      if (storedOrg) setOrg(storedOrg);
+    };
+
+    loadSettings();
+  }, []);
+
   const saveApiKey = async () => {
-    setKey(apiKey);
-    setOrganization(org);
+    await AsyncStorage.setItem('apikey', apiKey);
+    await AsyncStorage.setItem('org', org);
     navigation.navigate(chatNavigation.NEW);
   };
 
   const removeApiKey = async () => {
-    setKey('');
-    setOrganization('');
+    await AsyncStorage.removeItem('apikey');
+    await AsyncStorage.removeItem('org');
+    setApiKey('');
+    setOrg('');
   };
 
   return (
     <View style={styles.container}>
-      {key && key !== '' && (
+      {apiKey && apiKey !== '' && (
         <>
           <Text style={styles.label}>You are all set!</Text>
           <TouchableOpacity
@@ -51,7 +62,7 @@ export default function Settings() {
         </>
       )}
 
-      {(!key || key === '') && (
+      {(!apiKey || apiKey === '') && (
         <>
           <Text style={styles.label}>API Key & Organization:</Text>
           <TextInput
