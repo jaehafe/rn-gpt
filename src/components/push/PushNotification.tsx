@@ -6,10 +6,10 @@ import notifee, {EventType} from '@notifee/react-native';
 import {
   getFcmToken,
   getFcmTokenFromLocalStorage,
-  localStorage,
   notificationListener,
   requestUserPermission,
 } from './notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {AndroidColor} from '@notifee/react-native';
 
 async function onDisplayNotification() {
@@ -66,7 +66,7 @@ async function onDisplayNotification() {
   });
 }
 
-export default function PushNotification() {
+export default async function PushNotification() {
   // useEffect(() => {
   //   return notifee.onForegroundEvent(({type, detail}) => {
   //     switch (type) {
@@ -79,7 +79,7 @@ export default function PushNotification() {
   //     }
   //   });
   // }, []);
-  const fcmToken = localStorage.getString('fcmtoken');
+  const fcmToken = await AsyncStorage.getItem('fcmtoken');
   const [generatedToken, setGeneratedToken] = useState<string>('');
 
   useEffect(() => {
