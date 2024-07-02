@@ -4,19 +4,17 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addToCalendar} from './helpers/calendar-method';
 import dayjs from 'dayjs';
-import {EventType} from './helpers/event-type';
 
 export default function AddCalendar() {
   return (
     <View>
       <Ionicons
         name={'calendar-outline'}
-        //  color={AppTheme.colors.primary}
         size={24}
         onPress={() => {
           const shareUrl = 'url string for video stream here';
 
-          const event: EventType = {
+          addToCalendar({
             title: 'add calendar',
             description: 'description',
             location: 'location',
@@ -29,9 +27,7 @@ export default function AddCalendar() {
               endTime: true,
               subtitle: 'location',
             },
-          };
-
-          addToCalendar(event);
+          });
         }}
       />
     </View>
