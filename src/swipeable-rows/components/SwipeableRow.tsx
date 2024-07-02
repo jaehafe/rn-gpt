@@ -3,16 +3,12 @@ import React, {FC} from 'react';
 import {SCREEN_WIDTH} from '../constants/screen';
 import Animated, {
   interpolate,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {clamp, snapPoint} from 'react-native-redash';
 import AnimatedButton from './AnimatedButton';
 import {springConfig} from '../utils/animation';
@@ -27,40 +23,36 @@ const LEFT_ACTIONS = [
   {icon: 'pin', color: '#056d9c', position: 0, title: 'Pin'},
 ];
 
-type Props = {
+interface SwipeableRowProps {
   children: React.ReactNode;
-};
-
-type Context = {
-  translationX: number;
-};
+}
 
 const MAX_TRANSLATE = 120;
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const SwipeableRow: FC<Props> = ({children}) => {
+export default function SwipeableRow({children}: SwipeableRowProps) {
   const translateX = useSharedValue(0);
+  const context = useSharedValue({translationX: 0});
+
   const aStyle = useAnimatedStyle(() => {
     return {
       transform: [{translateX: translateX.value}],
     };
   });
 
-  const handler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    Context
-  >({
-    onStart: (_, context) => {
-      context.translationX = translateX.value;
-    },
-    onActive: (event, context) => {
+  const handler = Gesture.Pan()
+    .activeOffsetX([-30, 30])
+    .onBegin(() => {
+      context.value.translationX = translateX.value;
+    })
+    .onUpdate(event => {
       translateX.value = clamp(
-        event.translationX + context.translationX,
+        event.translationX + context.value.translationX,
         -MAX_TRANSLATE,
         MAX_TRANSLATE,
       );
-    },
-    onEnd: event => {
+    })
+    .onEnd(event => {
       const sameDirection =
         (event.translationX > 0 && translateX.value > 0) ||
         (event.translationX < 0 && translateX.value < 0);
@@ -76,8 +68,7 @@ const SwipeableRow: FC<Props> = ({children}) => {
       } else {
         translateX.value = withSpring(0, springConfig(event.velocityX));
       }
-    },
-  });
+    });
 
   const leftIconsStyle = useAnimatedStyle(() => {
     const translate = interpolate(translateX.value, [0, 120], [-60, 0]);
@@ -143,16 +134,14 @@ const SwipeableRow: FC<Props> = ({children}) => {
         {renderLeftActions()}
         {renderRightActions()}
       </View>
-      <PanGestureHandler activeOffsetX={[-10, 10]} onGestureEvent={handler}>
+      <GestureDetector gesture={handler}>
         <AnimatedPressable onPress={handleTap} style={[styles.item, aStyle]}>
           {children}
         </AnimatedPressable>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
-};
-
-export default SwipeableRow;
+}
 
 const styles = StyleSheet.create({
   container: {
