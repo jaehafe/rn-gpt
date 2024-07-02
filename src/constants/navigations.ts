@@ -11,6 +11,7 @@ const chatNavigation = {
   DETAIL: 'Detail',
   PUSH: 'Push',
   CALENDAR: 'Calendar',
+  SWIPEABLE_ROWS: 'SwipeableRows',
 } as const;
 
 const mainNavigation = {
