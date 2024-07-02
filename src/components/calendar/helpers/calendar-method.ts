@@ -16,7 +16,7 @@ export async function addToCalendar(event: EventType): Promise<boolean> {
     return await saveEventToCalendar(event);
   } catch (error) {
     // Sentry.captureException(error)
-    console.error(error);
+    console.error('error>>>', error);
     return false;
   }
 }
