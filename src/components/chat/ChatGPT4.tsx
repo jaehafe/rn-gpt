@@ -27,7 +27,7 @@ export default function ChatGPT4() {
     setPhotoInfo(photo);
     if (photo) {
       const path = `${Platform.OS === 'android' ? 'file://' : ''}${photo.path}`;
-      const savedResult = await CameraRoll.save(path, {
+      const savedResult = await CameraRoll.saveAsset(path, {
         type: 'photo',
         album: 'RnGPT',
       }).then(res => Alert.alert('Photo saved to camera roll'));
