@@ -1,59 +1,43 @@
 import {Alert, Button, StyleSheet, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addToCalendar} from './helpers/calendar-method';
-import dayjs, {Dayjs} from 'dayjs';
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from '@react-native-community/datetimepicker';
-import {EventType} from './helpers/event-type';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
+import {EventType} from './helpers/event-type';
+
 export default function AddCalendar() {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
-  const [link, setLink] = useState<string>('');
-  const [startTime, setStartTime] = useState<Dayjs | null>(null);
-  const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const [event, setEvent] = useState<EventType | null>({
+    title: '',
+    description: '',
+    location: '',
+    url: '',
+    startDate: '',
+    endDate: '',
+  });
+  console.log('event???', event);
 
   const [isStartPickerVisible, setStartPickerVisible] =
     useState<boolean>(false);
   const [isEndPickerVisible, setEndPickerVisible] = useState<boolean>(false);
 
   const handleConfirmStartTime = (date: Date) => {
-    setStartTime(dayjs(date));
+    setEvent(prev => (prev ? {...prev, startDate: date.toISOString()} : null));
     setStartPickerVisible(false);
   };
 
   const handleConfirmEndTime = (date: Date) => {
-    setEndTime(dayjs(date));
+    setEvent(prev => (prev ? {...prev, endDate: date.toISOString()} : null));
     setEndPickerVisible(false);
   };
 
   const handleAddToCalendar = async () => {
-    if (!startTime || !endTime) {
+    if (!event?.startDate || !event?.endDate) {
       Alert.alert('Please select both start and end times.');
       return;
     }
 
-    const event: EventType = {
-      title,
-      description,
-      location,
-      startTime,
-      endTime,
-      isOngoing: false,
-      links: [link],
-      config: {
-        startTime: true,
-        endTime: true,
-        subtitle: 'location',
-      },
-    };
-
-    const result = await addToCalendar(event);
+    const result = await addToCalendar(event as EventType);
 
     if (result) {
       Alert.alert('저장 완료', '캘린더에 저장되었습니다.');
@@ -67,38 +51,46 @@ export default function AddCalendar() {
       <TextInput
         style={styles.input}
         placeholder="Title"
-        value={title}
-        onChangeText={setTitle}
+        value={event?.title}
+        onChangeText={text => {
+          setEvent(prev => (prev ? {...prev, title: text} : null));
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Description"
-        value={description}
-        onChangeText={setDescription}
+        value={event?.description}
+        onChangeText={text => {
+          setEvent(prev => (prev ? {...prev, description: text} : null));
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Location"
-        value={location}
-        onChangeText={setLocation}
+        value={event?.location}
+        onChangeText={text => {
+          setEvent(prev => (prev ? {...prev, location: text} : null));
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Link"
-        value={link}
-        onChangeText={setLink}
+        value={event?.url}
+        onChangeText={text => {
+          setEvent(prev => (prev ? {...prev, url: text} : null));
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Start Time"
-        value={startTime ? startTime.format('YYYY-MM-DD HH:mm') : ''}
+        value={event?.startDate}
         editable={false}
         onPressIn={() => setStartPickerVisible(true)}
       />
       <TextInput
         style={styles.input}
         placeholder="End Time"
-        value={endTime ? endTime.format('YYYY-MM-DD HH:mm') : ''}
+        value={event?.endDate}
         editable={false}
         onPressIn={() => setEndPickerVisible(true)}
       />

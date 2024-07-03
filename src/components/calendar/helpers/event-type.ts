@@ -1,16 +1,10 @@
-import {Dayjs} from 'dayjs';
+import {ISODateString} from 'react-native-calendar-events';
 
 export type EventType = {
   readonly title: string;
   readonly description: string;
   readonly location: string;
-  readonly startTime: Dayjs;
-  readonly endTime: Dayjs;
-  readonly isOngoing: boolean;
-  readonly links: Array<string>;
-  readonly config: {
-    readonly startTime: boolean;
-    readonly endTime: boolean;
-    readonly subtitle: 'location' | 'description';
-  };
+  readonly url: string;
+  readonly startDate: ISODateString;
+  readonly endDate: ISODateString;
 };

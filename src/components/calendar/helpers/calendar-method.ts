@@ -1,4 +1,7 @@
-import RNCalendarEvents from 'react-native-calendar-events';
+import RNCalendarEvents, {
+  CalendarEventWritable,
+  Options,
+} from 'react-native-calendar-events';
 import {Alert, Linking, Platform} from 'react-native';
 import {EventType} from './event-type';
 
@@ -25,10 +28,9 @@ async function saveEventToCalendar(event: EventType): Promise<boolean> {
   try {
     await RNCalendarEvents.saveEvent(event.title, {
       location: event.location,
-      startDate: event.startTime.toISOString(),
-      endDate: event.endTime.toISOString(),
+      startDate: event.startDate,
+      endDate: event.endDate,
       description: event.description,
-      notes: event.description,
     });
 
     return true;

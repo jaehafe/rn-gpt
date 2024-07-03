@@ -36,6 +36,7 @@ export default function ChatGPT4() {
     }
     console.log(photo);
   };
+
   const handleSavePhoto = async () => {
     if (Platform.OS === 'android' && !hasPermission) {
       return Camera.requestCameraPermission;

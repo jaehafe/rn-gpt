@@ -1,0 +1,31 @@
+{
+  "alarms": [],
+  "allDay": false,
+  "attendees": [],
+  "availability": "notSupported",
+  "calendar": {
+    "allowedAvailabilities": [],
+    "allowsModifications": true,
+    "color": "#1BADF8",
+    "id": "8A037038-07DE-4C56-962E-81CD1D5504A4",
+    "source": "Default",
+    "title": "Calendar"
+  },
+  "endDate": "2024-07-02T11:56:40.000Z",
+  "id": "1C5A30B3-82AA-4AD9-B621-B23894A5F8C8",
+  "isDetached": false,
+  "location": "22",
+  "notes": "22",
+  "occurrenceDate": "2024-07-02T11:56:40.000Z",
+  "recurrence": "",
+  "recurrenceRule": {
+    "endDate": "",
+    "frequency": "",
+    "interval": "",
+    "occurrence": ""
+  },
+  "startDate": "2024-07-02T11:56:40.000Z",
+  "timeZone": null,
+  "title": "22",
+  "url": ""
+}
