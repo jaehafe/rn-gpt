@@ -103,7 +103,10 @@ export default function SwipeableRow({
   const handleActionButtonPress = (action: ActionType) => {
     if (action === 'Delete') {
       removeEvent(selectedId);
+    } else {
+      Alert.alert('Action', action);
     }
+    translateX.value = withTiming(0);
   };
 
   const renderLeftActions = () => {
