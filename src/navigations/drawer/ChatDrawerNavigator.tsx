@@ -30,8 +30,9 @@ import CalendarScreen from '@/screens/CalendarScreen';
 // import NewScreen from '@/screens/NewScreen';
 import ChatGPT3 from '@/components/chat/ChatGPT3';
 import ChatGPT4 from '@/components/chat/ChatGPT4';
-import SwipeableRowsScreen from '@/swipeable-rows/src';
+import SwipeableRowsScreen from '@/animations/swipeable-rows/src';
 import UpdateCalendar from '@/components/calendar/UpdateCalendar';
+import CarouselScreen from '@/animations/carousel/CarouselScreen';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
@@ -43,6 +44,7 @@ export type MainStackParamList = {
   [chatNavigation.CALENDAR]: undefined;
   [chatNavigation.UPDATE_CALENDAR]: undefined;
   [chatNavigation.SWIPEABLE_ROWS]: undefined;
+  [chatNavigation.CAROUSEL]: undefined;
 };
 
 export type MainDrawerParamList = {
@@ -55,6 +57,7 @@ export type MainDrawerParamList = {
   [chatNavigation.CALENDAR]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.UPDATE_CALENDAR]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.SWIPEABLE_ROWS]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.CAROUSEL]: NavigatorScreenParams<MainStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -278,6 +281,30 @@ export default function ChatDrawerNavigator() {
         component={SwipeableRowsScreen}
         options={{
           title: 'Swipeable Rows',
+          drawerIcon: () => (
+            <View
+              style={[
+                styles.item,
+                {
+                  backgroundColor: '#fff',
+                  width: 28,
+                  height: 28,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <Ionicons name="apps-outline" size={18} color="#000" />
+            </View>
+          ),
+        }}
+      />
+      {/* Carousel Rows */}
+      <Drawer.Screen
+        name={chatNavigation.CAROUSEL}
+        component={CarouselScreen}
+        options={{
+          title: 'Carousel',
           drawerIcon: () => (
             <View
               style={[

@@ -13,6 +13,7 @@ const chatNavigation = {
   CALENDAR: 'Calendar',
   UPDATE_CALENDAR: 'UpdateCalendar',
   SWIPEABLE_ROWS: 'SwipeableRows',
+  CAROUSEL: 'Carousel',
 } as const;
 
 const mainNavigation = {
