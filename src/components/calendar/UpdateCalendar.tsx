@@ -1,18 +1,16 @@
 import {
-  Alert,
   Button,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   FlatList,
 } from 'react-native';
 import React from 'react';
 
-import dayjs from 'dayjs';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import useCalendar from './hooks/useCalendar';
+import ListItem from './ListItem';
 
 export default function UpdateCalendar() {
   const {
@@ -57,7 +55,6 @@ export default function UpdateCalendar() {
         style={styles.input}
         placeholder="Location"
         value={selectedEvent?.location}
-        // onChangeText={setLocation}
         onChangeText={text =>
           setSelectedEvent(prev => (prev ? {...prev, location: text} : null))
         }
@@ -66,7 +63,6 @@ export default function UpdateCalendar() {
         style={styles.input}
         placeholder="Link"
         value={selectedEvent?.url}
-        // onChangeText={setLink}
         onChangeText={text =>
           setSelectedEvent(prev => {
             if (prev) {
@@ -120,32 +116,23 @@ export default function UpdateCalendar() {
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return (
-              <TouchableOpacity
-                onPress={() => {
-                  if (item.id === selectedEvent?.id) {
-                    setSelectedEvent(null);
-                  } else {
-                    selectEvent(item);
-                  }
-                }}
-              >
-                <View style={styles.eventItem}>
-                  <Text>{item.title}</Text>
-                  <Text>
-                    {dayjs(item.startDate).format('YYYY-MM-DD HH:mm')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <ListItem
+                item={item}
+                selectedEvent={selectedEvent}
+                setSelectedEvent={setSelectedEvent}
+                selectEvent={selectEvent}
+                removeEvent={removeEvent}
+              />
             );
           }}
         />
       )}
 
-      <View>
+      {/* <View>
         <Text>selected date id</Text>
         <Text>{selectedEvent?.id}</Text>
       </View>
-      <Button title="Remove Event" onPress={removeEvent} />
+      <Button title="Remove Event" onPress={removeEvent(selectEvent.id)} /> */}
     </View>
   );
 }
@@ -161,10 +148,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
-  },
-  eventItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
   },
 });

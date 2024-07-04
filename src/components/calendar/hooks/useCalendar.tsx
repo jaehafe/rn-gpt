@@ -76,14 +76,18 @@ export default function useCalendar() {
     });
   };
 
-  const removeEvent = async () => {
-    if (!selectedEvent?.id) {
+  const removeEvent = async (id: string) => {
+    // if (!selectedEvent?.id) {
+    //   Alert.alert('Error', 'No event selected to remove.');
+    //   return;
+    // }
+    if (!id) {
       Alert.alert('Error', 'No event selected to remove.');
       return;
     }
 
     try {
-      await RNCalendarEvents.removeEvent(selectedEvent.id);
+      await RNCalendarEvents.removeEvent(id);
       Alert.alert('Success', 'Event has been removed successfully.');
       setSelectedEvent(null);
     } catch (error) {
