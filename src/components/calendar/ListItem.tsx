@@ -7,6 +7,7 @@ import SwipeableRow from './SwipeableRow';
 
 interface ListItemProps {
   item: CalendarEventReadable;
+  events: CalendarEventReadable[];
   selectedEvent: CalendarEventReadable | null;
   setSelectedEvent: Dispatch<SetStateAction<CalendarEventReadable | null>>;
   selectEvent: (event: CalendarEventReadable) => void;
@@ -15,6 +16,7 @@ interface ListItemProps {
 
 export default function ListItem({
   item,
+  events,
   selectedEvent,
   setSelectedEvent,
   selectEvent,

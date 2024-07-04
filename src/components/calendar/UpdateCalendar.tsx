@@ -118,6 +118,7 @@ export default function UpdateCalendar() {
             return (
               <ListItem
                 item={item}
+                events={events}
                 selectedEvent={selectedEvent}
                 setSelectedEvent={setSelectedEvent}
                 selectEvent={selectEvent}

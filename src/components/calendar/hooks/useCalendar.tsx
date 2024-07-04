@@ -77,10 +77,6 @@ export default function useCalendar() {
   };
 
   const removeEvent = async (id: string) => {
-    // if (!selectedEvent?.id) {
-    //   Alert.alert('Error', 'No event selected to remove.');
-    //   return;
-    // }
     if (!id) {
       Alert.alert('Error', 'No event selected to remove.');
       return;
@@ -89,6 +85,7 @@ export default function useCalendar() {
     try {
       await RNCalendarEvents.removeEvent(id);
       Alert.alert('Success', 'Event has been removed successfully.');
+      setEvents(events.filter(event => event.id !== id));
       setSelectedEvent(null);
     } catch (error) {
       Alert.alert('Error', 'Failed to remove event.');
