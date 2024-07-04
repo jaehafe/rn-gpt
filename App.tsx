@@ -52,9 +52,6 @@ export default function App() {
         </QueryClientProvider>
       </GestureHandlerRootView>
     </NavigationContainer>
-    // <View>
-    //   <Text>123</Text>
-    // </View>
   );
 }
 

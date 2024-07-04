@@ -8,132 +8,34 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 
-import dayjs, {Dayjs} from 'dayjs';
+import dayjs from 'dayjs';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import RNCalendarEvents, {
-  CalendarEventReadable,
-} from 'react-native-calendar-events';
+import useCalendar from './hooks/useCalendar';
 
 export default function UpdateCalendar() {
-  const [events, setEvents] = useState<CalendarEventReadable[]>([]);
-
-  const [selectedEvent, setSelectedEvent] =
-    useState<CalendarEventReadable | null>(null);
-
-  const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
-  const [isStartPickerVisible, setStartPickerVisible] =
-    useState<boolean>(false);
-  const [isEndPickerVisible, setEndPickerVisible] = useState<boolean>(false);
-
-  const handleConfirmDate = async (date: Date) => {
-    setDatePickerVisible(false);
-    await fetchEvents(dayjs(date));
-  };
-
-  const handleConfirmStartTime = (date: Date) => {
-    setSelectedEvent(
-      selectedEvent
-        ? {
-            ...selectedEvent,
-            startDate: dayjs(date) as unknown as string,
-          }
-        : null,
-    );
-    setStartPickerVisible(false);
-  };
-
-  const handleConfirmEndTime = (date: Date) => {
-    setSelectedEvent(
-      selectedEvent
-        ? {
-            ...selectedEvent,
-            endDate: dayjs(date) as unknown as string,
-          }
-        : null,
-    );
-    setEndPickerVisible(false);
-  };
-
-  const fetchEvents = async (date: Dayjs) => {
-    try {
-      const startDate = date.startOf('day').toISOString();
-      const endDate = date.endOf('day').toISOString();
-      const fetchedEvents = await RNCalendarEvents.fetchAllEvents(
-        startDate,
-        endDate,
-      );
-      setEvents(fetchedEvents);
-      if (fetchedEvents.length === 0) {
-        Alert.alert('No Events', 'No events found for the selected date.');
-      }
-    } catch (error) {
-      console.error('Failed to fetch events', error);
-    }
-  };
-
-  const selectEvent = (event: CalendarEventReadable) => {
-    setSelectedEvent({
-      ...event,
-      id: event.id,
-      startDate: dayjs(event.startDate) as unknown as string,
-      endDate: dayjs(event.endDate) as unknown as string,
-    });
-  };
-
-  const removeEvent = async () => {
-    if (!selectedEvent?.id) {
-      Alert.alert('Error', 'No event selected to remove.');
-      return;
-    }
-
-    try {
-      await RNCalendarEvents.removeEvent(selectedEvent.id);
-      Alert.alert('Success', 'Event has been removed successfully.');
-      setSelectedEvent(null);
-    } catch (error) {
-      Alert.alert('Error', 'Failed to remove event.');
-      console.error('Failed to remove event', error);
-    }
-  };
-
-  const handleUpdateEvent = async () => {
-    if (!selectedEvent?.startDate || !selectedEvent.endDate) {
-      Alert.alert('Error', 'Please select both start and end times.');
-      return;
-    }
-
-    if (!selectedEvent.id) {
-      Alert.alert('Error', 'No event selected to update.');
-      return;
-    }
-
-    const updatedEvent: CalendarEventReadable = {
-      id: selectedEvent.id,
-      title: selectedEvent.title,
-      startDate: selectedEvent.startDate,
-      endDate: selectedEvent.endDate,
-      notes: selectedEvent.description,
-      location: selectedEvent.location,
-      url: selectedEvent.url,
-    };
-
-    try {
-      await RNCalendarEvents.saveEvent(updatedEvent.title, {
-        ...updatedEvent,
-        id: updatedEvent.id,
-      });
-      Alert.alert('Success', 'Event has been updated successfully.');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to update event.');
-      console.error('Failed to update event', error);
-    }
-  };
+  const {
+    events,
+    //
+    selectedEvent,
+    setSelectedEvent,
+    //
+    datePickerState,
+    startDateState,
+    endDateState,
+    //
+    handleConfirmDate,
+    handleConfirmStartTime,
+    handleConfirmEndTime,
+    handleUpdateEvent,
+    removeEvent,
+    selectEvent,
+  } = useCalendar();
 
   return (
     <View style={styles.container}>
-      <Button title="Select Date" onPress={() => setDatePickerVisible(true)} />
+      <Button title="Select Date" onPress={datePickerState.open} />
       <TextInput
         style={styles.input}
         placeholder="Title"
@@ -182,34 +84,34 @@ export default function UpdateCalendar() {
         placeholder="Start Time"
         value={selectedEvent?.startDate ? selectedEvent?.startDate : ''}
         editable={false}
-        onPressIn={() => setStartPickerVisible(true)}
+        onPressIn={startDateState.open}
       />
       <TextInput
         style={styles.input}
         placeholder="End Time"
         value={selectedEvent?.endDate ? selectedEvent?.endDate : ''}
         editable={false}
-        onPressIn={() => setEndPickerVisible(true)}
+        onPressIn={endDateState.open}
       />
       <Button title="Update Event" onPress={handleUpdateEvent} />
 
       <DateTimePickerModal
-        isVisible={isDatePickerVisible}
+        isVisible={datePickerState.isVisible}
         mode="date"
         onConfirm={handleConfirmDate}
-        onCancel={() => setDatePickerVisible(false)}
+        onCancel={datePickerState.close}
       />
       <DateTimePickerModal
-        isVisible={isStartPickerVisible}
+        isVisible={startDateState.isVisible}
         mode="datetime"
         onConfirm={handleConfirmStartTime}
-        onCancel={() => setStartPickerVisible(false)}
+        onCancel={startDateState.close}
       />
       <DateTimePickerModal
-        isVisible={isEndPickerVisible}
+        isVisible={endDateState.isVisible}
         mode="datetime"
         onConfirm={handleConfirmEndTime}
-        onCancel={() => setEndPickerVisible(false)}
+        onCancel={endDateState.close}
       />
 
       {events.length > 0 && (
