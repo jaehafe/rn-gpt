@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MessageInput from './MessageInput';
 import {defaultStyles} from '@/constants/Styles';
 import {FlashList} from '@shopify/flash-list';
@@ -17,9 +17,28 @@ import Haptics from 'react-native-haptic-feedback';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {useQueryTodosAPI} from '@/apis/hooks';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {jwtDecode} from 'jwt-decode';
+
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
-  const {data, isPending, isError, refetch} = useQueryTodosAPI();
+  const [decodedToken, setDecodedToken] = useState<string>('');
+
+  useEffect(() => {
+    const decodeToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('accessToken');
+        if (token) {
+          const decoded = jwtDecode(token);
+          setDecodedToken(JSON.stringify(decoded, null, 2));
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    };
+
+    decodeToken();
+  }, []);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
@@ -27,8 +46,6 @@ export default function ChatGPT3() {
   };
 
   const handleRefresh = async () => {
-    await refetch();
-
     Haptics.trigger('impactLight', {
       enableVibrateFallback: true,
       ignoreAndroidSystemSettings: false,
@@ -59,7 +76,12 @@ export default function ChatGPT3() {
           </Pressable>
         </View>
 
-        <FlashList
+        <View style={styles.tokenContainer}>
+          <Text style={styles.tokenTitle}>Decoded Access Token:</Text>
+          <Text style={styles.tokenText}>{decodedToken}</Text>
+        </View>
+
+        {/* <FlashList
           data={data}
           keyExtractor={item => String(item.id)}
           renderItem={({item}) => (
@@ -79,7 +101,7 @@ export default function ChatGPT3() {
           refreshing={isPending}
           scrollIndicatorInsets={{right: 1}}
           indicatorStyle="black"
-        />
+        /> */}
       </View>
 
       <KeyboardAvoidingView
@@ -116,5 +138,20 @@ const styles = StyleSheet.create({
   },
   page: {
     flex: 1,
+  },
+
+  tokenContainer: {
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+    margin: 10,
+    borderRadius: 10,
+  },
+  tokenTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  tokenText: {
+    fontSize: 14,
   },
 });

@@ -10,10 +10,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //   encryptionKey: 'encrypt',
 // });
 
-export const subscribe = (key: string, callback: (value: any) => void) => {
+// export const subscribe = (key: string, callback: (value: any) => void) => {
+//   const checkValueChange = async () => {
+//     const value = await AsyncStorage.getItem(key);
+//     callback(value === 'true');
+//   };
+
+//   checkValueChange();
+//   const interval = setInterval(checkValueChange, 1000);
+
+//   return () => clearInterval(interval);
+// };
+
+const subscribe = (key: string, callback: (value: string | null) => void) => {
   const checkValueChange = async () => {
-    const value = await AsyncStorage.getItem(key);
-    callback(value === 'true');
+    try {
+      const value = await AsyncStorage.getItem(key);
+      callback(value);
+    } catch (error) {
+      console.error('Error in subscribe:', error);
+      callback(null);
+    }
   };
 
   checkValueChange();
@@ -25,21 +42,42 @@ export const subscribe = (key: string, callback: (value: any) => void) => {
 export default function RootNavigator() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    AsyncStorage.setItem('isLoggedIn', 'false');
-  }, []);
+  // useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     const loggedInStatus = await AsyncStorage.getItem('isLoggedIn');
+  //     setIsLoggedIn(loggedInStatus === 'true');
+  //   };
+
+  //   checkLoginStatus();
+  //   const unsubscribe = subscribe('isLoggedIn', setIsLoggedIn);
+
+  //   return unsubscribe;
+  // }, []);
+
+  console.log('isLoggedIn>>', isLoggedIn);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const loggedInStatus = await AsyncStorage.getItem('isLoggedIn');
-      setIsLoggedIn(loggedInStatus === 'true');
+      try {
+        const accessToken = await AsyncStorage.getItem('accessToken');
+        setIsLoggedIn(!!accessToken);
+      } catch (error) {
+        console.error('Error checking login status:', error);
+        setIsLoggedIn(false);
+      }
     };
 
     checkLoginStatus();
-    const unsubscribe = subscribe('isLoggedIn', setIsLoggedIn);
 
-    return unsubscribe;
-  }, []);
+    // 로그인 상태 변화를 감지하는 리스너
+    const unsubscribe = subscribe('accessToken', token => {
+      setIsLoggedIn(!!token);
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [isLoggedIn]);
 
   return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
 }

@@ -18,6 +18,9 @@ import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {MainDrawerParamList} from '@/navigations/drawer/ChatDrawerNavigator';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {useMutationSignUp} from '@/apis/hooks/useMutationSignUp';
+import {useMutationSignIn} from '@/apis/hooks/useMutationSignIn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LoginScreenProps = StackScreenProps<AuthStackParamList>;
 
@@ -28,15 +31,68 @@ type Navigation = CompositeNavigationProp<
 
 export default function Login({route}: LoginScreenProps) {
   const navigation = useNavigation<Navigation>();
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const {mutateAsync: signUpMutate, isPending: isSigningUp} =
+    useMutationSignUp();
+  const {mutateAsync: signInMutate, isPending: isSigningIn} =
+    useMutationSignIn();
 
-  const onSignInPress = async () => {
-    navigation.goBack();
+  const [loading, setLoading] = useState(false);
+  const [signUp, setSignUp] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleSignIn = async () => {
+    await signInMutate(
+      {
+        email: signUp.email,
+        password: signUp.password,
+      },
+      {
+        onSuccess: async (data: any) => {
+          console.log('data>>', data);
+
+          const accessToken = data.accessToken;
+
+          if (data.accessToken) {
+            // AsyncStorage에 accessToken 저장
+            await AsyncStorage.setItem('accessToken', accessToken);
+            // isLoggedIn 상태를 true로 설정
+            await AsyncStorage.setItem('isLoggedIn', 'true');
+            // 메인 화면으로 이동
+            // navigation.replace('');
+          } else {
+            Alert.alert('Error', 'No access token received');
+          }
+        },
+        onError: error => {
+          console.log('error>>', error);
+
+          Alert.alert('Error', 'Failed to login');
+        },
+      },
+    );
   };
 
-  const onSignUpPress = async () => {};
+  // 회원가입
+  const handleSignUp = async () => {
+    await signUpMutate(
+      {
+        email: signUp.email,
+        password: signUp.password,
+      },
+      {
+        onSuccess: () => {
+          navigation.navigate('VerifyCode', {
+            email: signUp.email,
+          });
+        },
+        onError: () => {
+          Alert.alert('Error', 'Failed to create account');
+        },
+      },
+    );
+  };
 
   return (
     <KeyboardAvoidingView
@@ -64,14 +120,24 @@ export default function Login({route}: LoginScreenProps) {
         <TextInput
           autoCapitalize="none"
           placeholder="john@apple.com"
-          value={emailAddress}
-          onChangeText={setEmailAddress}
+          value={signUp.email}
+          onChangeText={(email: string) =>
+            setSignUp({
+              ...signUp,
+              email,
+            })
+          }
           style={styles.inputField}
         />
         <TextInput
           placeholder="password"
-          value={password}
-          onChangeText={setPassword}
+          value={signUp.password}
+          onChangeText={(password: string) =>
+            setSignUp({
+              ...signUp,
+              password,
+            })
+          }
           secureTextEntry
           style={styles.inputField}
         />
@@ -80,15 +146,16 @@ export default function Login({route}: LoginScreenProps) {
       {route.params?.type === 'login' ? (
         <TouchableOpacity
           style={[defaultStyles.btn, styles.btnPrimary]}
-          onPress={onSignInPress}
+          onPress={handleSignIn}
         >
           <Text style={styles.btnPrimaryText}>Login</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
           style={[defaultStyles.btn, styles.btnPrimary]}
-          onPress={onSignUpPress}
+          onPress={handleSignUp}
         >
+          {/* // TODO: isPending */}
           <Text style={styles.btnPrimaryText}>Create account</Text>
         </TouchableOpacity>
       )}

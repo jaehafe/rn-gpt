@@ -10,11 +10,15 @@ import Login from '@/components/Login';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import VerifyCode from '@/components/VerifyCode';
 
 export type AuthStackParamList = {
   [authNavigation.AUTH_HOME]: undefined;
   [authNavigation.LOGIN]: {
     type: 'login' | 'register';
+  };
+  [authNavigation.VERIFY_CODE]: {
+    email: string;
   };
 };
 
@@ -45,6 +49,14 @@ export default function AuthStackNavigator() {
               <Ionicons name="close-outline" size={28} />
             </TouchableOpacity>
           ),
+        }}
+      />
+      <Stack.Screen
+        name={authNavigation.VERIFY_CODE}
+        component={VerifyCode}
+        options={{
+          headerTitle: '인증코드 입력',
+          presentation: 'modal',
         }}
       />
     </Stack.Navigator>

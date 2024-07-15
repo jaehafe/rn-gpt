@@ -21,7 +21,7 @@ export default function MainStackNavigator() {
   const navigation = useNavigation();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={mainNavigation.DRAWER}>
       <Stack.Screen
         name={mainNavigation.DRAWER}
         component={ChatDrawerNavigator}
