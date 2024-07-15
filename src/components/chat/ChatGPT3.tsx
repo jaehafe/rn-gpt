@@ -52,6 +52,19 @@ export default function ChatGPT3() {
     });
   };
 
+  const handleLogOut = async () => {
+    try {
+      await AsyncStorage.setItem('accessToken', '');
+      // isLoggedIn 상태를 true로 설정
+      await AsyncStorage.setItem('isLoggedIn', 'false');
+    } catch (error) {}
+
+    Haptics.trigger('impactLight', {
+      enableVibrateFallback: true,
+      ignoreAndroidSystemSettings: false,
+    });
+  };
+
   return (
     <View style={defaultStyles.pageContainer}>
       <View style={styles.page} onLayout={handleLayout}>
@@ -61,14 +74,7 @@ export default function ChatGPT3() {
           </View>
         )} */}
         <View style={[styles.logoContainer, {marginTop: height / 2 - 100}]}>
-          <Pressable
-            onPress={() =>
-              Haptics.trigger('impactLight', {
-                enableVibrateFallback: true,
-                ignoreAndroidSystemSettings: false,
-              })
-            }
-          >
+          <Pressable onPress={handleLogOut}>
             <Image
               source={require('@/assets/images/logo-white.png')}
               style={styles.image}
