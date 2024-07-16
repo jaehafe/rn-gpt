@@ -28,7 +28,6 @@ export default function GoogleLoginModal() {
   const handleMessage = async (event: WebViewMessageEvent) => {
     try {
       const data = event.nativeEvent.data;
-      console.log('handleMessage>>>', data);
 
       const response = JSON.parse(
         event.nativeEvent.data,
