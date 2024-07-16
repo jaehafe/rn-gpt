@@ -23,6 +23,9 @@ const requestUserPermission = async () => {
 
   if (enabled) {
     console.log('Authorization status:', authStatus);
+    const token = await messaging().getToken();
+    console.log('FCM Token:', token);
+    return token;
   } else {
     Alert.alert(
       'Permission Required',
@@ -43,6 +46,7 @@ const requestUserPermission = async () => {
 
 const getFcmTokenFromLocalStorage = async () => {
   const fcmtoken = await AsyncStorage.getItem('fcmtoken');
+
   if (!fcmtoken) {
     try {
       const newFcmToken = await messaging().getToken();
@@ -65,9 +69,28 @@ const getFcmToken = async () => {
   }
 };
 
+// async function onMessageReceived(
+//   message: FirebaseMessagingTypes.RemoteMessage,
+// ) {
+//   await notifee.displayNotification({
+//     title: JSON.parse(JSON.stringify(message.notification?.title)),
+//     body: JSON.parse(JSON.stringify(message.notification?.body)),
+//   });
+// }
+
 async function onMessageReceived(
   message: FirebaseMessagingTypes.RemoteMessage,
 ) {
+  const processedMessageIds = new Set();
+  console.log('processedMessageIds>>', processedMessageIds);
+
+  if (processedMessageIds.has(message.messageId)) {
+    console.log('Message already processed, skipping:', message.messageId);
+    return;
+  }
+
+  processedMessageIds.add(message.messageId);
+
   await notifee.displayNotification({
     title: JSON.parse(JSON.stringify(message.notification?.title)),
     body: JSON.parse(JSON.stringify(message.notification?.body)),
@@ -97,11 +120,17 @@ const notificationListener = () => {
     .catch(error => console.log('failed', error));
 
   // foreground
+  // messaging().onMessage(async remoteMessage => {
+  //   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  // });
+  // messaging().onMessage(onMessageReceived);
+  // messaging().setBackgroundMessageHandler(onMessageReceived);
+
+  // foreground
   messaging().onMessage(async remoteMessage => {
+    await onMessageReceived(remoteMessage);
     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
   });
-  messaging().onMessage(onMessageReceived);
-  messaging().setBackgroundMessageHandler(onMessageReceived);
 };
 
 export {

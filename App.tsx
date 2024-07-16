@@ -22,25 +22,25 @@ import SplashScreen from 'react-native-splash-screen';
 export default function App() {
   useEffect(() => {
     requestUserPermission();
+    notificationListener();
   }, []);
+
+  // usePushNotification();
 
   // foreground
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();
     }, 1000);
   }, []);
-
-  usePushNotification();
-  notificationListener();
 
   return (
     <NavigationContainer>

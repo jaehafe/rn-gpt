@@ -82,25 +82,25 @@ export default async function PushNotification() {
   const fcmToken = await AsyncStorage.getItem('fcmtoken');
   const [generatedToken, setGeneratedToken] = useState<string>('');
 
-  useEffect(() => {
-    console.log('storage', fcmToken, 'newly generated', generatedToken);
-  }, [fcmToken, generatedToken]);
+  // useEffect(() => {
+  //   console.log('storage', fcmToken, 'newly generated', generatedToken);
+  // }, [fcmToken, generatedToken]);
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getFcmToken();
-      if (token) {
-        setGeneratedToken(token);
-      }
-    };
-    const fetchTokenByLocal = async () => {
-      await getFcmTokenFromLocalStorage();
-    };
-    void fetchToken();
-    void fetchTokenByLocal();
-    void requestUserPermission();
-    void notificationListener();
-  }, []);
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     const token = await getFcmToken();
+  //     if (token) {
+  //       setGeneratedToken(token);
+  //     }
+  //   };
+  //   const fetchTokenByLocal = async () => {
+  //     await getFcmTokenFromLocalStorage();
+  //   };
+  //   void fetchToken();
+  //   void fetchTokenByLocal();
+  //   void requestUserPermission();
+  //   void notificationListener();
+  // }, []);
 
   return (
     <View>

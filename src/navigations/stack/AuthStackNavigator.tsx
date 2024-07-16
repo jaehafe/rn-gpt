@@ -6,11 +6,11 @@ import {
 } from '@react-navigation/native-stack';
 import AnimatedIntro from '@/components/ui/AnimatedIntro';
 import {authNavigation} from '@/constants/navigations';
-import Login from '@/components/Login';
+import Login from '@/components/auth/Login';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import VerifyCode from '@/components/VerifyCode';
+import VerifyCode from '@/components/auth/VerifyCode';
 
 export type AuthStackParamList = {
   [authNavigation.AUTH_HOME]: undefined;

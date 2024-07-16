@@ -107,7 +107,7 @@ export default function Login({route}: LoginScreenProps) {
       )}
 
       <Image
-        source={require('../assets/images/logo-dark.png')}
+        source={require('../../assets/images/logo-dark.png')}
         style={styles.logo}
       />
 

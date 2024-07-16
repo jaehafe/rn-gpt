@@ -61,7 +61,7 @@ export default function VerifyCode({route}: VerifyCodeProps) {
       style={styles.container}
     >
       <Image
-        source={require('../assets/images/logo-dark.png')}
+        source={require('../../assets/images/logo-dark.png')}
         style={styles.logo}
       />
 
