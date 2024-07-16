@@ -1,4 +1,5 @@
 import {
+  Button,
   Image,
   KeyboardAvoidingView,
   LayoutChangeEvent,
@@ -20,11 +21,13 @@ import {useQueryTodosAPI} from '@/apis/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {jwtDecode} from 'jwt-decode';
 import {useMutationLogOut} from '@/apis/hooks/useMutationLogOut';
+import axiosInstance from '@/apis/axios';
 
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
   const [decodedToken, setDecodedToken] = useState<string>('');
   const {mutateAsync: logOut} = useMutationLogOut();
+  const [testResult, setTestResult] = useState<string>('');
 
   useEffect(() => {
     const decodeToken = async () => {
@@ -69,6 +72,16 @@ export default function ChatGPT3() {
     }
   };
 
+  const handleTestRequest = async () => {
+    try {
+      const response = await axiosInstance.get('/test-controller');
+      setTestResult(JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      console.error('Error in test request:', error);
+      setTestResult('Error: ' + JSON.stringify(error, null, 2));
+    }
+  };
+
   return (
     <View style={defaultStyles.pageContainer}>
       <View style={styles.page} onLayout={handleLayout}>
@@ -89,6 +102,13 @@ export default function ChatGPT3() {
         <View style={styles.tokenContainer}>
           <Text style={styles.tokenTitle}>Decoded Access Token:</Text>
           <Text style={styles.tokenText}>{decodedToken}</Text>
+        </View>
+
+        <Button title="Test Request" onPress={handleTestRequest} />
+
+        <View style={styles.tokenContainer}>
+          <Text style={styles.tokenTitle}>Test Result:</Text>
+          <Text style={styles.tokenText}>{testResult}</Text>
         </View>
 
         {/* <FlashList
