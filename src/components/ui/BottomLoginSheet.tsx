@@ -27,6 +27,7 @@ const BottomLoginSheet = () => {
 
   return (
     <View style={[styles.container, {paddingBottom: bottom}]}>
+      {/* apple login */}
       <TouchableOpacity
         style={[defaultStyles.btn, styles.btnLight]}
         onPress={handleAppleLogin}
@@ -34,7 +35,12 @@ const BottomLoginSheet = () => {
         <Ionicons name="logo-apple" size={24} style={styles.btnIcon} />
         <Text style={styles.btnLightText}>Continue with Apple</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[defaultStyles.btn, styles.btnDark]}>
+
+      {/* google login */}
+      <TouchableOpacity
+        onPress={() => navigate(authNavigation.GOOGLE_LOGIN)}
+        style={[defaultStyles.btn, styles.btnDark]}
+      >
         <Ionicons
           name="logo-google"
           size={20}
@@ -44,6 +50,7 @@ const BottomLoginSheet = () => {
         <Text style={styles.btnDarkText}>Continue with Google</Text>
       </TouchableOpacity>
 
+      {/* sign up email */}
       <TouchableOpacity
         onPress={() => navigate(authNavigation.LOGIN, {type: 'register'})}
         style={[defaultStyles.btn, styles.btnDark]}
@@ -52,6 +59,7 @@ const BottomLoginSheet = () => {
         <Text style={styles.btnDarkText}>Sign up with email</Text>
       </TouchableOpacity>
 
+      {/* login */}
       <TouchableOpacity
         onPress={() => navigate(authNavigation.LOGIN, {type: 'login'})}
         style={[defaultStyles.btn, styles.btnOutline]}

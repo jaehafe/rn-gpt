@@ -2,6 +2,7 @@ const authNavigation = {
   AUTH_HOME: 'AuthHome',
   LOGIN: 'Login',
   VERIFY_CODE: 'VerifyCode',
+  GOOGLE_LOGIN: 'GoogleLogin',
 } as const;
 
 const chatNavigation = {

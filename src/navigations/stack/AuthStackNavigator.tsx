@@ -11,6 +11,7 @@ import Login from '@/components/auth/Login';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import VerifyCode from '@/components/auth/VerifyCode';
+import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 
 export type AuthStackParamList = {
   [authNavigation.AUTH_HOME]: undefined;
@@ -20,6 +21,7 @@ export type AuthStackParamList = {
   [authNavigation.VERIFY_CODE]: {
     email: string;
   };
+  [authNavigation.GOOGLE_LOGIN]: undefined;
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -36,6 +38,14 @@ export default function AuthStackNavigator() {
         options={{
           headerTitle: '',
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={authNavigation.GOOGLE_LOGIN}
+        component={GoogleLoginModal}
+        options={{
+          headerTitle: '구글 로그인',
+          presentation: 'modal',
         }}
       />
       <Stack.Screen
