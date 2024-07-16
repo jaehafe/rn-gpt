@@ -1,26 +1,9 @@
-import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AuthStackNavigator from '@/navigations/stack/AuthStackNavigator';
 import MainStackNavigator from '../stack/MainStackNavigator';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// export const storage = new MMKV({
-//   id: 'user',
-//   encryptionKey: 'encrypt',
-// });
-
-// export const subscribe = (key: string, callback: (value: any) => void) => {
-//   const checkValueChange = async () => {
-//     const value = await AsyncStorage.getItem(key);
-//     callback(value === 'true');
-//   };
-
-//   checkValueChange();
-//   const interval = setInterval(checkValueChange, 1000);
-
-//   return () => clearInterval(interval);
-// };
+import {ActivityIndicator, View} from 'react-native';
 
 const subscribe = (key: string, callback: (value: string | null) => void) => {
   const checkValueChange = async () => {
@@ -40,27 +23,13 @@ const subscribe = (key: string, callback: (value: string | null) => void) => {
 };
 
 export default function RootNavigator() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     const loggedInStatus = await AsyncStorage.getItem('isLoggedIn');
-  //     setIsLoggedIn(loggedInStatus === 'true');
-  //   };
-
-  //   checkLoginStatus();
-  //   const unsubscribe = subscribe('isLoggedIn', setIsLoggedIn);
-
-  //   return unsubscribe;
-  // }, []);
-
-  console.log('isLoggedIn>>', isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const accessToken = await AsyncStorage.getItem('accessToken');
-        setIsLoggedIn(!!accessToken);
+        const value = await AsyncStorage.getItem('isLoggedIn');
+        setIsLoggedIn(value === 'true');
       } catch (error) {
         console.error('Error checking login status:', error);
         setIsLoggedIn(false);
@@ -69,17 +38,37 @@ export default function RootNavigator() {
 
     checkLoginStatus();
 
-    // 로그인 상태 변화를 감지하는 리스너
-    const unsubscribe = subscribe('accessToken', token => {
-      setIsLoggedIn(!!token);
+    // AsyncStorage의 'isLoggedIn' 값 변경을 감지하는 리스너
+    const unsubscribe = subscribe('isLoggedIn', value => {
+      setIsLoggedIn(value === 'true');
     });
 
     return () => {
       if (unsubscribe) unsubscribe();
     };
-  }, [isLoggedIn]);
+  }, []);
 
-  return <>{isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />}</>;
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, [isLoggedIn]);
+
+  // const checkLoginStatus = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('isLoggedIn');
+  //     setIsLoggedIn(value === 'true');
+  //   } catch (error) {
+  //     console.error('Error checking login status:', error);
+  //     setIsLoggedIn(false);
+  //   }
+  // };
+
+  if (isLoggedIn === null) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />;
 }
-
-const styles = StyleSheet.create({});

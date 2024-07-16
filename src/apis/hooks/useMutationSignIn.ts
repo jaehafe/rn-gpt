@@ -7,8 +7,12 @@ interface SignInParams {
   password: string;
 }
 
+interface SignInResponse {
+  accessToken: string;
+}
+
 export const useMutationSignIn = (
-  options?: UseMutationCustomOptions<string, SignInParams>,
+  options?: UseMutationCustomOptions<SignInResponse, SignInParams>,
 ) => {
   const mutationKey = '/login';
   const mutationFn = async (data: SignInParams) =>

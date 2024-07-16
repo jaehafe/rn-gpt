@@ -19,10 +19,12 @@ import {useQueryTodosAPI} from '@/apis/hooks';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {jwtDecode} from 'jwt-decode';
+import {useMutationLogOut} from '@/apis/hooks/useMutationLogOut';
 
 export default function ChatGPT3() {
   const [height, setHeight] = useState(0);
   const [decodedToken, setDecodedToken] = useState<string>('');
+  const {mutateAsync: logOut} = useMutationLogOut();
 
   useEffect(() => {
     const decodeToken = async () => {
@@ -53,16 +55,18 @@ export default function ChatGPT3() {
   };
 
   const handleLogOut = async () => {
-    try {
-      await AsyncStorage.setItem('accessToken', '');
-      // isLoggedIn 상태를 true로 설정
-      await AsyncStorage.setItem('isLoggedIn', 'false');
-    } catch (error) {}
-
     Haptics.trigger('impactLight', {
       enableVibrateFallback: true,
       ignoreAndroidSystemSettings: false,
     });
+
+    try {
+      await logOut({});
+      await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.setItem('isLoggedIn', 'false');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (

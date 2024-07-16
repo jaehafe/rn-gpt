@@ -49,18 +49,15 @@ export default function Login({route}: LoginScreenProps) {
         password: signUp.password,
       },
       {
-        onSuccess: async (data: any) => {
-          console.log('data>>', data);
+        onSuccess: async data => {
+          console.log('login response data>>', data);
 
           const accessToken = data.accessToken;
 
           if (data.accessToken) {
-            // AsyncStorage에 accessToken 저장
             await AsyncStorage.setItem('accessToken', accessToken);
-            // isLoggedIn 상태를 true로 설정
             await AsyncStorage.setItem('isLoggedIn', 'true');
             // 메인 화면으로 이동
-            // navigation.replace('');
           } else {
             Alert.alert('Error', 'No access token received');
           }
