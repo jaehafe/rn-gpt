@@ -1,10 +1,20 @@
-import {Alert, Button, StyleSheet, TextInput, View} from 'react-native';
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
+import RNCalendarEvents from 'react-native-calendar-events';
 
-import {addToCalendar} from './helpers/calendar-method';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import {EventType} from './helpers/event-type';
+import {addToCalendar} from './helpers/calendar-method';
+import ReactNativeCalendarEvents from 'react-native-calendar-events';
 
 export default function AddCalendar() {
   const [event, setEvent] = useState<EventType | null>({
@@ -37,6 +47,9 @@ export default function AddCalendar() {
       return;
     }
 
+    const a = await ReactNativeCalendarEvents.findCalendars();
+    console.log('a>>', a);
+
     const result = await addToCalendar(event as EventType);
 
     if (result) {
@@ -45,6 +58,41 @@ export default function AddCalendar() {
       Alert.alert('저장 실패', '캘린더에 저장하는데 실패했습니다.');
     }
   };
+  // const handleAddToCalendar = async () => {
+  //   try {
+  //     if (!event?.startDate || !event?.endDate || !event?.title) {
+  //       Alert.alert(
+  //         'Missing Information',
+  //         'Please fill in all required fields (title, start time, and end time).',
+  //       );
+  //       return;
+  //     }
+
+  //     console.log('Calling addToCalendar with event:', event);
+  //     const result = await addToCalendar(event as EventType);
+  //     console.log('result>>', result);
+
+  //     if (result) {
+  //       Alert.alert('Success', 'Event has been added to your calendar.');
+  //       setEvent({
+  //         title: '',
+  //         description: '',
+  //         location: '',
+  //         url: '',
+  //         startDate: '',
+  //         endDate: '',
+  //       });
+  //     } else {
+  //       Alert.alert(
+  //         'Failed',
+  //         'Failed to add event to your calendar. Please try again.',
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error('Error in handleAddToCalendar:', error);
+  //     Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -80,7 +128,7 @@ export default function AddCalendar() {
           setEvent(prev => (prev ? {...prev, url: text} : null));
         }}
       />
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Start Time"
         value={event?.startDate}
@@ -93,8 +141,22 @@ export default function AddCalendar() {
         value={event?.endDate}
         editable={false}
         onPressIn={() => setEndPickerVisible(true)}
-      />
+      /> */}
+
+      <TouchableOpacity onPress={() => setStartPickerVisible(true)}>
+        <Text style={styles.datePickerText}>
+          {event?.startDate || 'Select Start Time'}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => setEndPickerVisible(true)}>
+        <Text style={styles.datePickerText}>
+          {event?.endDate || 'Select End Time'}
+        </Text>
+      </TouchableOpacity>
+
       <Button title="Add to Calendar" onPress={handleAddToCalendar} />
+
       <DateTimePickerModal
         isVisible={isStartPickerVisible}
         mode="datetime"
@@ -122,5 +184,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+  },
+
+  datePickerText: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });

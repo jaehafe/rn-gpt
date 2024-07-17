@@ -63,7 +63,7 @@ export default function Login({route}: LoginScreenProps) {
           }
         },
         onError: error => {
-          console.log('error>>', error);
+          console.log('error signin>>', error);
 
           Alert.alert('Error', 'Failed to login');
         },
@@ -84,7 +84,9 @@ export default function Login({route}: LoginScreenProps) {
             email: signUp.email,
           });
         },
-        onError: () => {
+        onError: err => {
+          console.log('sign up error', err);
+
           Alert.alert('Error', 'Failed to create account');
         },
       },

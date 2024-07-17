@@ -3,8 +3,11 @@ import axios from 'axios';
 import {Platform} from 'react-native';
 
 const axiosInstance = axios.create({
-  // baseURL: Platform.OS === 'android' ? 'http://10.0.2.2:3030' : 'http://localhost:3030',
-  baseURL: 'http://localhost:8080',
+  baseURL:
+    Platform.OS === 'android'
+      ? 'http://10.0.2.2:8080'
+      : 'http://localhost:8080',
+  // baseURL: 'http://localhost:8080',
   withCredentials: true,
 });
 
@@ -20,7 +23,7 @@ axiosInstance.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const response = await axios.post(

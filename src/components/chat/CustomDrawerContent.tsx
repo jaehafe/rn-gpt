@@ -119,61 +119,6 @@ export const CustomDrawerContent = (props: any) => {
             <Text>123</Text>
           </Pressable>
         </View>
-        {/* {history.map(chat => (
-          <ContextMenu.Root key={chat.id}>
-            <ContextMenu.Trigger>
-              <DrawerItem
-                label={chat.title}
-                onPress={() =>
-                  // router.push(`/(auth)/(drawer)/(chat)/${chat.id}`)
-                  {}
-                }
-                inactiveTintColor="#000"
-              />
-            </ContextMenu.Trigger>
-            <ContextMenu.Content>
-              <ContextMenu.Preview>
-                {() => (
-                  <View
-                    style={{
-                      padding: 16,
-                      height: 200,
-                      backgroundColor: '#fff',
-                    }}
-                  >
-                    <Text>{chat.title}</Text>
-                  </View>
-                )}
-              </ContextMenu.Preview>
-
-              <ContextMenu.Item
-                key={'rename'}
-                onSelect={() => onRenameChat(chat.id)}
-              >
-                <ContextMenu.ItemTitle>Rename</ContextMenu.ItemTitle>
-                <ContextMenu.ItemIcon
-                  ios={{
-                    name: 'pencil',
-                    pointSize: 18,
-                  }}
-                />
-              </ContextMenu.Item>
-              <ContextMenu.Item
-                key={'delete'}
-                onSelect={() => onDeleteChat(chat.id)}
-                destructive
-              >
-                <ContextMenu.ItemTitle>Delete</ContextMenu.ItemTitle>
-                <ContextMenu.ItemIcon
-                  ios={{
-                    name: 'trash',
-                    pointSize: 18,
-                  }}
-                />
-              </ContextMenu.Item>
-            </ContextMenu.Content>
-          </ContextMenu.Root>
-        ))} */}
       </DrawerContentScrollView>
 
       {/* Settings */}
