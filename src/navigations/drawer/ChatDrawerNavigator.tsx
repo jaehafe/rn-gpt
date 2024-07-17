@@ -252,7 +252,7 @@ export default function ChatDrawerNavigator() {
         }}
       />
       {/* update calendar */}
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name={chatNavigation.UPDATE_CALENDAR}
         component={UpdateCalendar}
         options={{
@@ -274,7 +274,7 @@ export default function ChatDrawerNavigator() {
             </View>
           ),
         }}
-      /> */}
+      />
       {/*  */}
       {/*  */}
       {/* Swipeable Rows */}
