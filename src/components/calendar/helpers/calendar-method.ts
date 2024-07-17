@@ -1,58 +1,46 @@
-import RNCalendarEvents, {
-  CalendarEventWritable,
-  Options,
-} from 'react-native-calendar-events';
+import RNCalendarEvents from 'react-native-calendar-events';
 import {Alert, Linking, PermissionsAndroid, Platform} from 'react-native';
 import {EventType} from './event-type';
 
 const addToCalendar = async (event: EventType): Promise<boolean> => {
   try {
-    const authCode = await RNCalendarEvents.checkPermissions(false);
-
-    const authStatus =
-      authCode === 'authorized' ? true : await requestCalendarAccess();
+    const authStatus = await requestCalendarAccess();
 
     if (!authStatus) {
       return false;
     }
 
-    return await saveEventToCalendar(event);
+    const calendars = await loadCalendars();
+    if (calendars.length === 0) {
+      console.error('No primary calendar found');
+      return false;
+    }
+
+    const primaryCalendarId = calendars[0];
+    return await saveEventToCalendar(event, primaryCalendarId);
   } catch (error) {
-    // Sentry.captureException(error)
     console.error('error>>>', error);
     return false;
   }
 };
 
-// const is_Calender_Permission_Granted = await PermissionsAndroid.check(
-//   'android.permission.WRITE_CALENDAR',
-// );
-// if (!is_Calender_Permission_Granted) {
-//   const granted = await PermissionsAndroid.request(
-//     PermissionsAndroid.PERMISSIONS.WRITE_CALENDAR,
-//     {
-//       title: 'ClashHub Needs Calender Permission',
-//       message: 'So We can Notify you before the Match',
-//       buttonNegative: 'Cancel',
-//       buttonPositive: 'OK',
-//     },
-//   );
-// }
-
-const saveEventToCalendar = async (event: EventType): Promise<boolean> => {
+const saveEventToCalendar = async (
+  event: EventType,
+  calendarId: string,
+): Promise<boolean> => {
   try {
     const result = await RNCalendarEvents.saveEvent(event.title, {
+      calendarId: calendarId,
       location: event.location,
       startDate: event.startDate,
       endDate: event.endDate,
       description: event.description,
+      url: event.url,
     });
 
     console.log('save result>>', result);
-
     return true;
   } catch (err) {
-    // Sentry.captureException(err)
     console.error(err);
     return false;
   }
@@ -61,28 +49,24 @@ const saveEventToCalendar = async (event: EventType): Promise<boolean> => {
 const promptSettings = async (): Promise<void> => {
   if (Platform.OS === 'ios') {
     Alert.alert(
-      '"All About Olaf" Would Like to Access Your Calendar',
-      `We use your calendar to add events to your calendar so that you remember
-       what you wanted to attend.`,
+      'Calendar Access Required',
+      'We need access to your calendar to add events. Please enable it in Settings.',
       [
         {
           text: "Don't Allow",
-          onPress: () => console.log('cancel pressed'),
+          onPress: () => console.log('Calendar access denied'),
           style: 'cancel',
         },
-        {text: 'Settings', onPress: () => Linking.openURL('app-settings:')},
+        {text: 'Open Settings', onPress: () => Linking.openSettings()},
       ],
     );
   } else if (Platform.OS === 'android') {
-    console.log('123');
-
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_CALENDAR,
         {
-          title: '"All About Olaf" Calendar Access',
-          message:
-            'We use your calendar to add events to your calendar so that you remember what you wanted to attend.',
+          title: 'Calendar Access Required',
+          message: 'We need access to your calendar to add events.',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
@@ -100,18 +84,32 @@ const promptSettings = async (): Promise<void> => {
 };
 
 const requestCalendarAccess = async (): Promise<boolean> => {
-  let status = null;
   try {
-    status = await RNCalendarEvents.requestPermissions(false);
+    const status = await RNCalendarEvents.requestPermissions();
+    return status === 'authorized';
   } catch (err) {
+    console.error('Error requesting calendar access:', err);
     return false;
   }
-
-  if (status !== 'authorized') {
-    return promptSettings() === undefined;
-  }
-
-  return true;
 };
 
-export {addToCalendar, promptSettings, requestCalendarAccess};
+const loadCalendars = async (): Promise<string[]> => {
+  try {
+    const calendars = await RNCalendarEvents.findCalendars();
+    console.log('calendars>>', calendars);
+
+    // iOS에서는 기본 캘린더를, Android에서는 주 캘린더를 선택합니다.
+    const primaryCalendars = calendars.filter(c =>
+      Platform.OS === 'ios'
+        ? c.isPrimary
+        : c.isPrimary && c.type === 'com.google',
+    );
+
+    return primaryCalendars.map(c => c.id);
+  } catch (e) {
+    console.error('Error loading calendars:', e);
+    return [];
+  }
+};
+
+export {addToCalendar, promptSettings, requestCalendarAccess, loadCalendars};

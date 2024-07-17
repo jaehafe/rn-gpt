@@ -1,20 +1,20 @@
 import {
   Alert,
   Button,
+  NativeModules,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import RNCalendarEvents from 'react-native-calendar-events';
+import React, {useEffect, useState} from 'react';
+import RnCalendarEvents from 'react-native-calendar-events';
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import {EventType} from './helpers/event-type';
-import {addToCalendar} from './helpers/calendar-method';
-import ReactNativeCalendarEvents from 'react-native-calendar-events';
+import {addToCalendar, loadCalendars} from './helpers/calendar-method';
 
 export default function AddCalendar() {
   const [event, setEvent] = useState<EventType | null>({
@@ -30,6 +30,18 @@ export default function AddCalendar() {
   const [isStartPickerVisible, setStartPickerVisible] =
     useState<boolean>(false);
   const [isEndPickerVisible, setEndPickerVisible] = useState<boolean>(false);
+  const [phoneCalendars, setCalendars] = useState<string[]>([]);
+  const [loadError, setLoadError] = useState<Error>();
+
+  console.log('phoneCalendars>>', phoneCalendars);
+
+  useEffect(() => {
+    loadCalendars()
+      .then((results: string[]) => {
+        setCalendars(results);
+      })
+      .catch(e => setLoadError(e));
+  }, []);
 
   const handleConfirmStartTime = (date: Date) => {
     setEvent(prev => (prev ? {...prev, startDate: date.toISOString()} : null));
@@ -47,9 +59,6 @@ export default function AddCalendar() {
       return;
     }
 
-    const a = await ReactNativeCalendarEvents.findCalendars();
-    console.log('a>>', a);
-
     const result = await addToCalendar(event as EventType);
 
     if (result) {
@@ -58,41 +67,16 @@ export default function AddCalendar() {
       Alert.alert('저장 실패', '캘린더에 저장하는데 실패했습니다.');
     }
   };
-  // const handleAddToCalendar = async () => {
-  //   try {
-  //     if (!event?.startDate || !event?.endDate || !event?.title) {
-  //       Alert.alert(
-  //         'Missing Information',
-  //         'Please fill in all required fields (title, start time, and end time).',
-  //       );
-  //       return;
-  //     }
 
-  //     console.log('Calling addToCalendar with event:', event);
-  //     const result = await addToCalendar(event as EventType);
-  //     console.log('result>>', result);
-
-  //     if (result) {
-  //       Alert.alert('Success', 'Event has been added to your calendar.');
-  //       setEvent({
-  //         title: '',
-  //         description: '',
-  //         location: '',
-  //         url: '',
-  //         startDate: '',
-  //         endDate: '',
-  //       });
-  //     } else {
-  //       Alert.alert(
-  //         'Failed',
-  //         'Failed to add event to your calendar. Please try again.',
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error('Error in handleAddToCalendar:', error);
-  //     Alert.alert('Error', 'An unexpected error occurred. Please try again.');
-  //   }
-  // };
+  async function requestCalendarAccess(): Promise<boolean> {
+    try {
+      await RnCalendarEvents.checkPermissions(false);
+      const res = await RnCalendarEvents.requestPermissions(false);
+      return res === 'authorized';
+    } catch (error) {
+      return false;
+    }
+  }
 
   return (
     <View style={styles.container}>
