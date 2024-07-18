@@ -5,6 +5,7 @@ import {
   LayoutChangeEvent,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -85,11 +86,6 @@ export default function ChatGPT3() {
   return (
     <View style={defaultStyles.pageContainer}>
       <View style={styles.page} onLayout={handleLayout}>
-        {/* {messages.length == 0 && (
-          <View style={[styles.logoContainer, { marginTop: height / 2 - 100 }]}>
-            <Image source={require('@/assets/images/logo-white.png')} style={styles.image} />
-          </View>
-        )} */}
         <View style={[styles.logoContainer, {marginTop: height / 2 - 100}]}>
           <Pressable onPress={handleLogOut}>
             <Image
@@ -106,10 +102,10 @@ export default function ChatGPT3() {
 
         <Button title="Test Request" onPress={handleTestRequest} />
 
-        <View style={styles.tokenContainer}>
+        <ScrollView style={styles.tokenContainer}>
           <Text style={styles.tokenTitle}>Test Result:</Text>
           <Text style={styles.tokenText}>{testResult}</Text>
-        </View>
+        </ScrollView>
 
         {/* <FlashList
           data={data}
