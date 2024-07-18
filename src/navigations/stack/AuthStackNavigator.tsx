@@ -15,9 +15,7 @@ import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 
 export type AuthStackParamList = {
   [authNavigation.AUTH_HOME]: undefined;
-  [authNavigation.LOGIN]: {
-    type: 'login' | 'register';
-  };
+  Login: {type: 'login' | 'register'} | {email: string};
   [authNavigation.VERIFY_CODE]: {
     email: string;
   };

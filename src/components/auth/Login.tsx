@@ -42,6 +42,12 @@ export default function Login({route}: LoginScreenProps) {
     password: '',
   });
 
+  const isLoginParams = (
+    params: any,
+  ): params is {type: 'login' | 'register'} => {
+    return 'type' in params;
+  };
+
   const handleSignIn = async () => {
     await signInMutate(
       {
@@ -111,7 +117,7 @@ export default function Login({route}: LoginScreenProps) {
       />
 
       <Text style={styles.title}>
-        {route.params?.type === 'login'
+        {isLoginParams(route.params) && route.params.type === 'login'
           ? 'Welcome back'
           : 'Create your account'}
       </Text>
@@ -142,7 +148,7 @@ export default function Login({route}: LoginScreenProps) {
         />
       </View>
 
-      {route.params?.type === 'login' ? (
+      {isLoginParams(route.params) && route.params.type === 'login' ? (
         <TouchableOpacity
           style={[defaultStyles.btn, styles.btnPrimary]}
           onPress={handleSignIn}
@@ -154,7 +160,6 @@ export default function Login({route}: LoginScreenProps) {
           style={[defaultStyles.btn, styles.btnPrimary]}
           onPress={handleSignUp}
         >
-          {/* // TODO: isPending */}
           <Text style={styles.btnPrimaryText}>Create account</Text>
         </TouchableOpacity>
       )}
