@@ -5,12 +5,14 @@ import {
   TextInput,
   View,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import useCalendar from './hooks/useCalendar';
 import ListItem from './ListItem';
+import dayjs from 'dayjs';
 
 export default function UpdateCalendar() {
   const {
@@ -38,10 +40,9 @@ export default function UpdateCalendar() {
         style={styles.input}
         placeholder="Title"
         value={selectedEvent?.title}
-        onChangeText={text => {
-          console.log('text>>', text);
-          setSelectedEvent(prev => (prev ? {...prev, title: text} : null));
-        }}
+        onChangeText={text =>
+          setSelectedEvent(prev => (prev ? {...prev, title: text} : null))
+        }
       />
       <TextInput
         style={styles.input}
@@ -75,20 +76,21 @@ export default function UpdateCalendar() {
           })
         }
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Start Time"
-        value={selectedEvent?.startDate ? selectedEvent?.startDate : ''}
-        editable={false}
-        onPressIn={startDateState.open}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="End Time"
-        value={selectedEvent?.endDate ? selectedEvent?.endDate : ''}
-        editable={false}
-        onPressIn={endDateState.open}
-      />
+      <TouchableOpacity onPress={startDateState.open}>
+        <Text style={styles.datePickerText}>
+          {selectedEvent?.startDate
+            ? dayjs(selectedEvent.startDate).format('YYYY-MM-DD HH:mm')
+            : ''}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={endDateState.open}>
+        <Text style={styles.datePickerText}>
+          {selectedEvent?.endDate
+            ? dayjs(selectedEvent.endDate).format('YYYY-MM-DD HH:mm')
+            : ''}
+        </Text>
+      </TouchableOpacity>
+
       <Button title="Update Event" onPress={handleUpdateEvent} />
 
       <DateTimePickerModal
@@ -149,5 +151,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+  },
+  datePickerText: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 10,
   },
 });

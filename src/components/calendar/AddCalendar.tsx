@@ -112,20 +112,6 @@ export default function AddCalendar() {
           setEvent(prev => (prev ? {...prev, url: text} : null));
         }}
       />
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Start Time"
-        value={event?.startDate}
-        editable={false}
-        onPressIn={() => setStartPickerVisible(true)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="End Time"
-        value={event?.endDate}
-        editable={false}
-        onPressIn={() => setEndPickerVisible(true)}
-      /> */}
 
       <TouchableOpacity onPress={() => setStartPickerVisible(true)}>
         <Text style={styles.datePickerText}>
