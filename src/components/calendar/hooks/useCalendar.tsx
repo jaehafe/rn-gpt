@@ -71,8 +71,8 @@ export default function useCalendar() {
     setSelectedEvent({
       ...event,
       id: event.id,
-      startDate: dayjs(event.startDate) as unknown as string,
-      endDate: dayjs(event.endDate) as unknown as string,
+      startDate: event.startDate,
+      endDate: event.endDate,
     });
   };
 
