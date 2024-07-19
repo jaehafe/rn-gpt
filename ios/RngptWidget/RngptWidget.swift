@@ -49,8 +49,6 @@ struct RngptWidgetEntryView : View {
 
             Text("Emoji:")
             Text(entry.emoji)
-          
-            Text("Rngpt 위젯 만들기 힘들다;;")
         }
     }
 }
