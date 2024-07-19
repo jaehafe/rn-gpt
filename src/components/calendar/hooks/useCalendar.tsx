@@ -29,7 +29,7 @@ export default function useCalendar() {
       selectedEvent
         ? {
             ...selectedEvent,
-            startDate: dayjs(date) as unknown as string,
+            startDate: date.toISOString(),
           }
         : null,
     );
@@ -42,7 +42,7 @@ export default function useCalendar() {
       selectedEvent
         ? {
             ...selectedEvent,
-            endDate: dayjs(date) as unknown as string,
+            endDate: date.toISOString(),
           }
         : null,
     );
