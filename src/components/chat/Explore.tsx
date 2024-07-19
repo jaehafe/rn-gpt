@@ -1,10 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {useQueryTodosAPI} from '@/apis/hooks';
 
 export default function Explore() {
+  const {data} = useQueryTodosAPI();
+
   return (
     <View>
-      <Text>Explore</Text>
+      <Text>{data}</Text>
     </View>
   );
 }

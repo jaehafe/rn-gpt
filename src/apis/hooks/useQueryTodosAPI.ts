@@ -1,23 +1,21 @@
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import axiosInstance from '../axios';
-import {ResponseError} from '../types';
+import {ResponseError, UseQueryCustomOptions} from '../types';
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
+interface TodoResponse {
+  data: string;
 }
 
-export const useQueryTodosAPI = () => {
-  const queryKey = ['/posts'];
+export const useQueryTodosAPI = (options?: UseQueryCustomOptions<string>) => {
+  const queryKey = '/api/todo';
   const queryFn = async () =>
-    await axiosInstance.get(`/posts`).then(res => res.data);
+    await axiosInstance.get(queryKey).then(res => res.data);
 
-  return useQuery<Post[], ResponseError>({
-    queryKey,
+  return useQuery<string, ResponseError>({
+    queryKey: [queryKey],
     queryFn,
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
+    ...options,
   });
 };
