@@ -40,6 +40,8 @@
 		D6699FE12C280B4E00D20CE3 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FCE2C280B4E00D20CE3 /* FontAwesome.ttf */; };
 		D6699FE22C280B4E00D20CE3 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FCF2C280B4E00D20CE3 /* FontAwesome5_Solid.ttf */; };
 		D6699FE32C280B4E00D20CE3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6699FD02C280B4E00D20CE3 /* EvilIcons.ttf */; };
+		D6A8E6E72C4B2AE600AC3919 /* RngptSharedWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A8E6E62C4B2AE600AC3919 /* RngptSharedWidget.m */; };
+		D6A8E6EB2C4B533D00AC3919 /* WidgetKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A8E6EA2C4B533D00AC3919 /* WidgetKitHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +123,10 @@
 		D6699FCE2C280B4E00D20CE3 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		D6699FCF2C280B4E00D20CE3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		D6699FD02C280B4E00D20CE3 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		D6A8E6E62C4B2AE600AC3919 /* RngptSharedWidget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RngptSharedWidget.m; sourceTree = "<group>"; };
+		D6A8E6E82C4B2B0D00AC3919 /* RngptSharedWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RngptSharedWidget.h; sourceTree = "<group>"; };
+		D6A8E6E92C4B533C00AC3919 /* Rngpt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rngpt-Bridging-Header.h"; sourceTree = "<group>"; };
+		D6A8E6EA2C4B533D00AC3919 /* WidgetKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetKitHelper.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -184,6 +190,10 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				BF5BE1741E451FCCBF3597C1 /* PrivacyInfo.xcprivacy */,
+				D6A8E6E62C4B2AE600AC3919 /* RngptSharedWidget.m */,
+				D6A8E6EA2C4B533D00AC3919 /* WidgetKitHelper.swift */,
+				D6A8E6E82C4B2B0D00AC3919 /* RngptSharedWidget.h */,
+				D6A8E6E92C4B533C00AC3919 /* Rngpt-Bridging-Header.h */,
 			);
 			name = Rngpt;
 			sourceTree = "<group>";
@@ -362,7 +372,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1540;
 					};
 					D62FB0242C49582F00423C92 = {
 						CreatedOnToolsVersion = 15.4;
@@ -593,6 +603,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6A8E6EB2C4B533D00AC3919 /* WidgetKitHelper.swift in Sources */,
+				D6A8E6E72C4B2AE600AC3919 /* RngptSharedWidget.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -705,6 +717,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Rngpt1;
 				PRODUCT_NAME = Rngpt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rngpt-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -739,6 +752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Rngpt1;
 				PRODUCT_NAME = Rngpt;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rngpt-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
