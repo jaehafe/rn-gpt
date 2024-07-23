@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import Config from 'react-native-config';
 import RootNavigator from '@/navigations/root/RootNavigator';
@@ -48,13 +49,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <GestureHandlerRootView style={{flex: 1}}>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <RootNavigator />
+        <BottomSheetModalProvider>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <RootNavigator />
 
-            {/* <Button onPress={handleSubmit}>Submit</Button> */}
-          </SafeAreaProvider>
-        </QueryClientProvider>
+              {/* <Button onPress={handleSubmit}>Submit</Button> */}
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </NavigationContainer>
   );
