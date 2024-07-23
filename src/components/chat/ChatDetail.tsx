@@ -1,11 +1,5 @@
-import {Easing, StyleSheet, Text, View} from 'react-native';
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
+import React, {PropsWithChildren, useCallback, useMemo, useRef} from 'react';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {
@@ -13,16 +7,13 @@ import {
   MainStackParamList,
 } from '@/navigations/drawer/ChatDrawerNavigator';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import Button from '../ui/Button';
 
-import BottomSheet from '@gorhom/bottom-sheet';
+import {BottomSheetBackdrop, BottomSheetModal} from '@gorhom/bottom-sheet';
 import Colors from '@/constants/Colors';
 
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
@@ -50,6 +41,9 @@ const AnimatedText = ({children}: PropsWithChildren) => {
     return {
       transform: [{scale: scale.value}],
       opacity: opacity.value,
+      padding: 8,
+      borderWidth: 1,
+      borderRadius: 16,
     };
   });
 
@@ -65,41 +59,62 @@ const AnimatedText = ({children}: PropsWithChildren) => {
 export default function ChatDetail({route, navigation}: ChatDetailScreenProps) {
   console.log('route.params', route.params);
   const snapPoints = useMemo(() => ['1%', '50%'], []);
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
 
+  // const handleOpenBottomSheet = useCallback(() => {
+  //   console.log('open??');
+
+  //   bottomSheetRef.current?.present();
+  // }, []);
   const handleOpenBottomSheet = useCallback(() => {
-    bottomSheetRef.current?.expand();
-    setIsOpen(true);
+    bottomSheetRef.current?.present();
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {
-    if (index === -1) {
-      setIsOpen(false);
-    }
+    console.log('index>>', index);
   }, []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior="close"
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => {
+          bottomSheetRef.current?.close();
+        }}
+      />
+    ),
+    [],
+  );
 
   return (
     <View style={styles.container}>
       <Text>{route.params?.id}</Text>
       <Text>{route.params?.title}</Text>
-      <Button onPress={handleOpenBottomSheet}>bottom sheet</Button>
+      <Button title="Open bottom sheet" onPress={handleOpenBottomSheet} />
 
-      <BottomSheet
+      <BottomSheetModal
         ref={bottomSheetRef}
-        index={isOpen ? 1 : -1}
+        index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enablePanDownToClose={true}
+        enableDismissOnClose={true}
         handleIndicatorStyle={{backgroundColor: Colors.grey}}
         style={styles.sheetContainer}
+        backdropComponent={renderBackdrop}
       >
         <View style={styles.contentContainer}>
-          <AnimatedText>123asdasd</AnimatedText>
-          <AnimatedText>12asdasd3</AnimatedText>
-          <AnimatedText>12asdasd3</AnimatedText>
+          <View style={styles.contentWrapper}>
+            <AnimatedText>Click!!</AnimatedText>
+            <AnimatedText>Click!!!!</AnimatedText>
+            <AnimatedText>Click!!!!!</AnimatedText>
+            <AnimatedText>Click!!!!!!!!</AnimatedText>
+          </View>
         </View>
-      </BottomSheet>
+      </BottomSheetModal>
     </View>
   );
 }
@@ -124,10 +139,14 @@ const styles = StyleSheet.create({
       height: 1,
     },
     borderRadius: 16,
-    borderWidth: 2,
     paddingHorizontal: 16,
   },
+  contentWrapper: {
+    flex: 1,
+    paddingVertical: 16,
 
+    gap: 16,
+  },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
