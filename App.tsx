@@ -1,5 +1,5 @@
-import {NativeModules, StyleSheet, ToastAndroid} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import 'react-native-gesture-handler';
@@ -7,7 +7,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
-import Config from 'react-native-config';
+// import Config from 'react-native-config';
 import RootNavigator from '@/navigations/root/RootNavigator';
 
 import {
@@ -17,13 +17,9 @@ import {
 import {QueryClientProvider} from '@tanstack/react-query';
 import queryClient from '@/apis/queryClient';
 import SplashScreen from 'react-native-splash-screen';
+import AuthContextProvider from '@/contexts/auth/AuthContext';
 
 export default function App() {
-  const [text, setText] = useState('');
-  const widgetData = {
-    text,
-  };
-
   useEffect(() => {
     requestUserPermission();
     notificationListener();
@@ -52,9 +48,9 @@ export default function App() {
         <BottomSheetModalProvider>
           <QueryClientProvider client={queryClient}>
             <SafeAreaProvider>
-              <RootNavigator />
-
-              {/* <Button onPress={handleSubmit}>Submit</Button> */}
+              <AuthContextProvider>
+                <RootNavigator />
+              </AuthContextProvider>
             </SafeAreaProvider>
           </QueryClientProvider>
         </BottomSheetModalProvider>
