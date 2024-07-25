@@ -37,9 +37,7 @@ export default function Todo() {
   return (
     <View style={styles.container}>
       <FlashList
-        contentContainerStyle={{
-          backgroundColor: 'red',
-        }}
+        contentContainerStyle={{}}
         estimatedItemSize={100}
         data={data?.pages.flatMap(page => page.content) ?? []}
         renderItem={renderItem}
@@ -63,5 +61,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'lightgray',
     padding: 16,
+    marginVertical: 8,
   },
 });
