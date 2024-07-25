@@ -6,9 +6,9 @@ import useAuthContext from '@/contexts/auth/useAuthContext';
 import MainStackNavigator from '../stack/MainStackNavigator';
 
 export default function RootNavigator() {
-  const {isLoggedIn} = useAuthContext();
+  const {isLoggedInState} = useAuthContext();
 
-  if (isLoggedIn === null) {
+  if (isLoggedInState === null) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" />
@@ -16,5 +16,5 @@ export default function RootNavigator() {
     );
   }
 
-  return isLoggedIn ? <MainStackNavigator /> : <AuthStackNavigator />;
+  return isLoggedInState ? <MainStackNavigator /> : <AuthStackNavigator />;
 }

@@ -2,7 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 
 export interface AuthContextType {
-  isLoggedIn: boolean | null;
+  isLoggedInState: boolean | null;
+  setAccessToken: (token: string) => Promise<void>;
+  removeAccessToken: () => Promise<void>;
+  setIsLoggedIn: (value: boolean) => Promise<void>;
+  getIsLoggedIn: () => Promise<boolean | null>;
 }
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -28,32 +32,69 @@ export default function AuthContextProvider({
     return () => clearInterval(interval);
   };
 
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean | null>(null);
+  const [isLoggedInState, setIsLoggedInState] = React.useState<boolean | null>(
+    null,
+  );
 
   React.useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const value = await AsyncStorage.getItem('isLoggedIn');
-        setIsLoggedIn(value === 'true');
-      } catch (error) {
-        console.error('Error checking login status:', error);
-        setIsLoggedIn(false);
-      }
-    };
-
     checkLoginStatus();
-
-    // AsyncStorage의 'isLoggedIn' 값 변경을 감지하는 리스너
-    const unsubscribe = subscribe('isLoggedIn', value => {
-      setIsLoggedIn(value === 'true');
-    });
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
   }, []);
 
-  const value = {isLoggedIn};
+  const checkLoginStatus = async () => {
+    try {
+      const value = await getIsLoggedIn();
+      setIsLoggedInState(value);
+    } catch (error) {
+      console.error('Error checking login status:', error);
+      setIsLoggedInState(false);
+    }
+  };
+
+  const setAccessToken = async (token: string) => {
+    try {
+      await AsyncStorage.setItem('accessToken', token);
+    } catch (error) {
+      console.error('Error setting access token:', error);
+      throw error;
+    }
+  };
+
+  const removeAccessToken = async () => {
+    try {
+      await AsyncStorage.removeItem('accessToken');
+    } catch (error) {
+      console.error('Error removing access token:', error);
+      throw error;
+    }
+  };
+
+  const setIsLoggedIn = async (value: boolean) => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', value.toString());
+      setIsLoggedInState(value);
+    } catch (error) {
+      console.error('Error setting isLoggedIn:', error);
+      throw error;
+    }
+  };
+
+  const getIsLoggedIn = async (): Promise<boolean | null> => {
+    try {
+      const value = await AsyncStorage.getItem('isLoggedIn');
+      return value === 'true' ? true : value === 'false' ? false : null;
+    } catch (error) {
+      console.error('Error getting isLoggedIn:', error);
+      return null;
+    }
+  };
+
+  const value: AuthContextType = {
+    isLoggedInState,
+    setAccessToken,
+    removeAccessToken,
+    setIsLoggedIn,
+    getIsLoggedIn,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
