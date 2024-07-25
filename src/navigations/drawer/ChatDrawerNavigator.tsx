@@ -34,11 +34,13 @@ import SwipeableRowsScreen from '@/animations/swipeable-rows/src';
 import UpdateCalendar from '@/components/calendar/UpdateCalendar';
 import CarouselScreen from '@/animations/carousel/CarouselScreen';
 import useAuthContext from '@/contexts/auth/useAuthContext';
+import Todo from '@/components/chat/Todo';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
   [chatNavigation.DALLE]: undefined;
   [chatNavigation.EXPLORE]: undefined;
+  [chatNavigation.TODO]: undefined;
   [chatNavigation.MAIN_HOME]: undefined;
   [chatNavigation.DETAIL]: {id: string; title: string};
   [chatNavigation.PUSH]: undefined;
@@ -52,6 +54,7 @@ export type MainDrawerParamList = {
   [chatNavigation.NEW]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.DALLE]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.EXPLORE]: NavigatorScreenParams<MainStackParamList>;
+  [chatNavigation.TODO]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.MAIN_HOME]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.DETAIL]: NavigatorScreenParams<MainStackParamList>;
   [chatNavigation.PUSH]: NavigatorScreenParams<MainStackParamList>;
@@ -174,6 +177,29 @@ export default function ChatDrawerNavigator() {
         component={Explore}
         options={{
           title: 'Explore GPTs',
+          drawerIcon: () => (
+            <View
+              style={[
+                styles.item,
+                {
+                  backgroundColor: '#fff',
+                  width: 28,
+                  height: 28,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <Ionicons name="apps-outline" size={18} color="#000" />
+            </View>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={chatNavigation.TODO}
+        component={Todo}
+        options={{
+          title: 'Todo',
           drawerIcon: () => (
             <View
               style={[

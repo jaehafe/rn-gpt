@@ -9,6 +9,7 @@ const chatNavigation = {
   NEW: 'New',
   DALLE: 'Dalle',
   EXPLORE: 'Explore',
+  TODO: 'Todo',
   MAIN_HOME: 'MainHome',
   DETAIL: 'Detail',
   PUSH: 'Push',
