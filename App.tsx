@@ -25,17 +25,6 @@ export default function App() {
     notificationListener();
   }, []);
 
-  // usePushNotification();
-
-  // foreground
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();
