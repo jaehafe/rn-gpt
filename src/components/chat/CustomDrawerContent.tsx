@@ -3,19 +3,15 @@ import {chatNavigation} from '@/constants/navigations';
 import {MainStackParamList as MainStackParamList2} from '@/navigations/drawer/ChatDrawerNavigator';
 import {MainStackParamList} from '@/navigations/stack/MainStackNavigator';
 
-import {Chat} from '@/utils/interface';
 import {
   DrawerContentScrollView,
   DrawerItemList,
-  useDrawerStatus,
 } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useEffect, useState} from 'react';
+
 import {
-  Alert,
   Image,
-  Keyboard,
   Pressable,
   StyleSheet,
   Text,
@@ -26,8 +22,6 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import * as ContextMenu from 'zeego/context-menu';
-
 interface CustomDrawerContentProps {}
 
 type Navigation = StackNavigationProp<MainStackParamList>;
@@ -37,51 +31,8 @@ export const CustomDrawerContent = (props: any) => {
   const navigation = useNavigation<Navigation>();
   const navigation2 = useNavigation<Navigation2>();
   const {bottom, top} = useSafeAreaInsets();
-  // const db = useSQLiteContext();
-  const isDrawerOpen = useDrawerStatus() === 'open';
-  const [history, setHistory] = useState<Chat[]>([]);
-  // const router = useRouter();
 
-  useEffect(() => {
-    loadChats();
-    Keyboard.dismiss();
-  }, [isDrawerOpen]);
-
-  const loadChats = async () => {
-    // const result = (await getChats(db)) as Chat[];
-    // setHistory(result);
-  };
-
-  const onDeleteChat = (chatId: number) => {
-    Alert.alert('Delete Chat', 'Are you sure you want to delete this chat?', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'Delete',
-        onPress: async () => {
-          // Delete the chat
-          // await db.runAsync('DELETE FROM chats WHERE id = ?', chatId);
-          loadChats();
-        },
-      },
-    ]);
-  };
-
-  const onRenameChat = (chatId: number) => {
-    Alert.prompt(
-      'Rename Chat',
-      'Enter a new name for the chat',
-      async newName => {
-        if (newName) {
-          // Rename the chat
-          // await renameChat(db, chatId, newName);
-          loadChats();
-        }
-      },
-    );
-  };
+  // const isDrawerOpen = useDrawerStatus() === 'open';
 
   return (
     <View style={{flex: 1, marginTop: top}}>
@@ -129,7 +80,6 @@ export const CustomDrawerContent = (props: any) => {
           backgroundColor: Colors.light,
         }}
       >
-        {/* <Link href="/(auth)/(modal)/settings" asChild> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Settings')}
           style={styles.footer}
@@ -145,7 +95,6 @@ export const CustomDrawerContent = (props: any) => {
             color={Colors.greyLight}
           />
         </TouchableOpacity>
-        {/* </Link> */}
       </View>
     </View>
   );
