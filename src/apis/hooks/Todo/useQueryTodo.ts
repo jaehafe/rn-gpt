@@ -36,7 +36,7 @@ export const useQueryTodo = (pageSize: number = 10) => {
   };
 
   return useInfiniteQuery<TodoResponse, ResponseError>({
-    queryKey: [queryKey],
+    queryKey: [queryKey, pageSize],
     queryFn,
     getNextPageParam: lastPage => {
       if (lastPage.last) return undefined;

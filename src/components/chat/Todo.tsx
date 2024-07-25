@@ -37,7 +37,6 @@ export default function Todo() {
   return (
     <View style={styles.container}>
       <FlashList
-        style={{width: '100%'}}
         contentContainerStyle={{
           backgroundColor: 'red',
         }}
