@@ -16,10 +16,15 @@ import {
 } from 'react-native';
 // import {useMMKVString} from 'react-native-mmkv';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAuthContext from '@/contexts/auth/useAuthContext';
+import {useMutationLogOut} from '@/apis/hooks/useMutationLogOut';
 
 type Navigation = StackNavigationProp<MainStackParamList>;
 
 export default function Settings() {
+  const {removeAccessToken, setIsLoggedIn} = useAuthContext();
+  const {mutateAsync: logOut} = useMutationLogOut();
+
   const navigation = useNavigation<Navigation>();
   const [apiKey, setApiKey] = useState('');
   const [org, setOrg] = useState('');
@@ -46,6 +51,12 @@ export default function Settings() {
     await AsyncStorage.removeItem('org');
     setApiKey('');
     setOrg('');
+  };
+
+  const handleLogOut = async () => {
+    await logOut({});
+    await removeAccessToken();
+    await setIsLoggedIn(false);
   };
 
   return (
@@ -90,7 +101,7 @@ export default function Settings() {
           </TouchableOpacity>
         </>
       )}
-      <Button title="Sign Out" onPress={() => {}} color={Colors.grey} />
+      <Button title="Sign Out" onPress={handleLogOut} color={Colors.grey} />
     </View>
   );
 }

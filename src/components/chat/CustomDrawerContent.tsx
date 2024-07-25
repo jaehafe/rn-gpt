@@ -1,9 +1,12 @@
 import Colors from '@/constants/Colors';
 import {chatNavigation} from '@/constants/navigations';
+import {DecodedToken} from '@/contexts/auth/AuthContext';
+import useAuthContext from '@/contexts/auth/useAuthContext';
 import {MainStackParamList as MainStackParamList2} from '@/navigations/drawer/ChatDrawerNavigator';
 import {MainStackParamList} from '@/navigations/stack/MainStackNavigator';
 
 import {
+  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
@@ -22,17 +25,28 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-interface CustomDrawerContentProps {}
+export interface CustomDrawerContentProps extends DrawerContentComponentProps {
+  model: string;
+  setModel: (model: string) => void;
+  decodedToken: DecodedToken | null;
+}
 
 type Navigation = StackNavigationProp<MainStackParamList>;
 type Navigation2 = StackNavigationProp<MainStackParamList2>;
 
-export const CustomDrawerContent = (props: any) => {
+export const CustomDrawerContent = ({
+  model,
+  setModel,
+  decodedToken,
+  ...drawerProps
+}: CustomDrawerContentProps) => {
   const navigation = useNavigation<Navigation>();
   const navigation2 = useNavigation<Navigation2>();
   const {bottom, top} = useSafeAreaInsets();
 
   // const isDrawerOpen = useDrawerStatus() === 'open';
+
+  console.log('decodedToken>>', decodedToken);
 
   return (
     <View style={{flex: 1, marginTop: top}}>
@@ -53,10 +67,10 @@ export const CustomDrawerContent = (props: any) => {
       </View>
 
       <DrawerContentScrollView
-        {...props}
+        {...drawerProps}
         contentContainerStyle={{backgroundColor: '#fff', paddingTop: 0}}
       >
-        <DrawerItemList {...props} />
+        <DrawerItemList {...drawerProps} />
 
         <View style={{borderWidth: 1, marginHorizontal: 20}}>
           <Pressable
@@ -88,7 +102,7 @@ export const CustomDrawerContent = (props: any) => {
             source={{uri: 'https://galaxies.dev/img/meerkat_2.jpg'}}
             style={styles.avatar}
           />
-          <Text style={styles.userName}>Mika Meerkat</Text>
+          <Text style={styles.userName}>{decodedToken?.email}</Text>
           <Ionicons
             name="ellipsis-horizontal"
             size={24}

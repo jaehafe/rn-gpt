@@ -33,6 +33,7 @@ import ChatGPT4 from '@/components/chat/ChatGPT4';
 import SwipeableRowsScreen from '@/animations/swipeable-rows/src';
 import UpdateCalendar from '@/components/calendar/UpdateCalendar';
 import CarouselScreen from '@/animations/carousel/CarouselScreen';
+import useAuthContext from '@/contexts/auth/useAuthContext';
 
 export type MainStackParamList = {
   [chatNavigation.NEW]: undefined;
@@ -67,12 +68,22 @@ export type ModelType = '3.5' | '4';
 export default function ChatDrawerNavigator() {
   const navigation = useNavigation<StackNavigationProp<MainStackParamList>>();
   const dimensions = useWindowDimensions();
+  const {decodedToken} = useAuthContext();
 
   const [model, setModel] = useState<ModelType>('3.5');
 
+  const renderDrawerContent = (props: any) => (
+    <CustomDrawerContent
+      {...props}
+      model={model}
+      setModel={setModel}
+      decodedToken={decodedToken}
+    />
+  );
+
   return (
     <Drawer.Navigator
-      drawerContent={CustomDrawerContent}
+      drawerContent={renderDrawerContent}
       screenOptions={{
         headerLeft: () => (
           <TouchableOpacity

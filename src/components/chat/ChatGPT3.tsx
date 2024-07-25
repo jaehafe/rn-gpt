@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useState} from 'react';
 import MessageInput from './MessageInput';
 import {defaultStyles} from '@/constants/Styles';
 import {FlashList} from '@shopify/flash-list';
@@ -19,34 +19,16 @@ import Haptics from 'react-native-haptic-feedback';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {useQueryTodosAPI} from '@/apis/hooks';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {jwtDecode} from 'jwt-decode';
 import {useMutationLogOut} from '@/apis/hooks/useMutationLogOut';
 import axiosInstance from '@/apis/axios';
 import useAuthContext from '@/contexts/auth/useAuthContext';
 
 export default function ChatGPT3() {
-  const {removeAccessToken, setIsLoggedIn} = useAuthContext();
+  const {removeAccessToken, setIsLoggedIn, decodedToken} = useAuthContext();
   const [height, setHeight] = useState(0);
-  const [decodedToken, setDecodedToken] = useState<string>('');
+
   const {mutateAsync: logOut} = useMutationLogOut();
   const [testResult, setTestResult] = useState<string>('');
-
-  useEffect(() => {
-    const decodeToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem('accessToken');
-        if (token) {
-          const decoded = jwtDecode(token);
-          setDecodedToken(JSON.stringify(decoded, null, 2));
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    };
-
-    decodeToken();
-  }, []);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
@@ -99,7 +81,7 @@ export default function ChatGPT3() {
 
         <View style={styles.tokenContainer}>
           <Text style={styles.tokenTitle}>Decoded Access Token:</Text>
-          <Text style={styles.tokenText}>{decodedToken}</Text>
+          <Text style={styles.tokenText}>{decodedToken?.email}</Text>
         </View>
 
         <Button title="Test Request" onPress={handleTestRequest} />
