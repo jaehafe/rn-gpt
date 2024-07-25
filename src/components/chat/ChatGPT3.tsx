@@ -23,8 +23,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {jwtDecode} from 'jwt-decode';
 import {useMutationLogOut} from '@/apis/hooks/useMutationLogOut';
 import axiosInstance from '@/apis/axios';
+import useAuthContext from '@/contexts/auth/useAuthContext';
 
 export default function ChatGPT3() {
+  const {removeAccessToken, setIsLoggedIn} = useAuthContext();
   const [height, setHeight] = useState(0);
   const [decodedToken, setDecodedToken] = useState<string>('');
   const {mutateAsync: logOut} = useMutationLogOut();
@@ -66,8 +68,8 @@ export default function ChatGPT3() {
 
     try {
       await logOut({});
-      await AsyncStorage.removeItem('accessToken');
-      await AsyncStorage.setItem('isLoggedIn', 'false');
+      await removeAccessToken();
+      await setIsLoggedIn(false);
     } catch (error) {
       console.error('Error logging out:', error);
     }

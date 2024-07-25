@@ -20,7 +20,8 @@ import {MainDrawerParamList} from '@/navigations/drawer/ChatDrawerNavigator';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {useMutationSignUp} from '@/apis/hooks/useMutationSignUp';
 import {useMutationSignIn} from '@/apis/hooks/useMutationSignIn';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useAuthContext from '@/contexts/auth/useAuthContext';
 
 type LoginScreenProps = StackScreenProps<AuthStackParamList>;
 
@@ -31,6 +32,7 @@ type Navigation = CompositeNavigationProp<
 
 export default function Login({route}: LoginScreenProps) {
   const navigation = useNavigation<Navigation>();
+  const {setAccessToken, setIsLoggedIn} = useAuthContext();
   const {mutateAsync: signUpMutate, isPending: isSigningUp} =
     useMutationSignUp();
   const {mutateAsync: signInMutate, isPending: isSigningIn} =
@@ -60,10 +62,10 @@ export default function Login({route}: LoginScreenProps) {
 
           const accessToken = data.accessToken;
 
-          if (data.accessToken) {
-            await AsyncStorage.setItem('accessToken', accessToken);
-            await AsyncStorage.setItem('isLoggedIn', 'true');
-            // 메인 화면으로 이동
+          if (accessToken) {
+            await setAccessToken(accessToken);
+            await setIsLoggedIn(true);
+            // TODO 메인 화면으로 이동
           } else {
             Alert.alert('Error', 'No access token received');
           }
